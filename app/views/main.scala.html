@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(title: String, pageHeader: String = "Page Header", desc: String = "Optional description")(content: Html)
 
 <!DOCTYPE html>
 
@@ -31,6 +31,7 @@
         <![endif]-->
 
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+        <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/pai.css")">
     </head>
     <!--
 BODY TAG OPTIONS:
@@ -257,7 +258,7 @@ desired effect
                 <ul class="sidebar-menu">
                     <li class="header">HEADER</li>
                     <!-- Optionally, you can add icons to the links -->
-                    <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
+                    <li class="active"><a href="#"><i class="fa fa-link"></i> <span>web行为分析</span></a></li>
                     <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
                     <li class="treeview">
                         <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>
@@ -277,8 +278,8 @@ desired effect
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    Page Header
-                    <small>Optional description</small>
+                    @pageHeader
+                    <small>@desc</small>
                 </h1>
                 <ol class="breadcrumb">
                     <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
