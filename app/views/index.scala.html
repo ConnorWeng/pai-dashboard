@@ -1,4 +1,4 @@
-@main("PAIDashboard", "web行为分析", "前端埋点采集数据并分析") {
+@main("PAIDashboard", "WEB手工测试", "前端埋点采集数据并分析手工测试覆盖情况") {
 
 <nav class="navbar navbar-default">
     <div class="container-fluid">
@@ -15,16 +15,22 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">选择... <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">week</a></li>
-                        <li><a href="#">month</a></li>
-                        <li><a href="#">3 months</a></li>
-                    </ul>
-                </li>
-            </ul>
+            <form class="navbar-form navbar-left" role="date">
+                <div class="form-group">
+                    <input type="date" class="form-control" placeholder="起始时间">
+                    <input type="date" class="form-control" placeholder="结束时间">
+                </div>
+                <div class="form-group">
+                    <select class="form-control">
+                        <option>排序...</option>
+                        <option>总用时由高至低</option>
+                        <option>总用时由低至高</option>
+                        <option>点击数由高至低</option>
+                        <option>点击数由低至高</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-default">查询</button>
+            </form>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
@@ -47,7 +53,7 @@
             </div>
             <div class="pai-users">
                 <ul class="no-list-style">
-                    <li class="pull-right"><img class="img-circle" src="@routes.Assets.versioned("images/user2-160x160.png")"/></li>
+                    <li class="pull-right"><img class="img-circle" src="@routes.Assets.versioned("images/user2-160x160.png")" alt="Connor Weng"/></li>
                     <li class="pull-right"><img class="img-circle" src="@routes.Assets.versioned("images/avatar1.png")"/></li>
                     <li class="pull-right"><img class="img-circle" src="@routes.Assets.versioned("images/avatar2.png")"/></li>
                     <li class="pull-right"><img class="img-circle" src="@routes.Assets.versioned("images/avatar3.png")"/></li>
