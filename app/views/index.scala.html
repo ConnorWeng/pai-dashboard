@@ -1,3 +1,7 @@
+@(paiMenus: List[PAIMenu])
+
+@import controllers.Application.Formats._
+
 @main("PAIDashboard", "WEB手工测试", "前端埋点采集数据并分析手工测试覆盖情况") {
 
 <nav class="navbar navbar-default">
@@ -37,60 +41,30 @@
 
 <div class="container-fluid">
     <ol class="pai-menu-list no-list-style">
-        <li class="pai-menu-item pull-left" style="background-color: rgb(0,255,0)">
+        @for((menu, index) <- paiMenus.zipWithIndex) {
+        <li class="pai-menu-item pull-left" style="background-color: rgb(@((240/paiMenus.size)*index),@(240-(240/paiMenus.size)*index),0)">
             <div class="pai-item-header">
-                <div class="pai-menu-name pull-left"><b>通用查询</b></div>
+                <div class="pai-menu-name pull-left"><b>@menu.menu</b></div>
                 <div class="pai-events pull-left">
                     <ul class="no-list-style">
-                        <li class="pull-right"><i class="fa fa-mouse-pointer"></i>13</li>
+                        <li class="pull-right"><i class="fa fa-mouse-pointer"></i>@menu.clicks</li>
                         <li class="pull-right"><i class="fa fa-keyboard-o"></i></li>
                     </ul>
                 </div>
             </div>
             <div class="clear"></div>
             <div class="pai-duration">
-                总用时: <span>25.5秒</span>
+                总用时: <span>@formatDuration(menu.duration)</span>
             </div>
             <div class="pai-users">
                 <ul class="no-list-style">
-                    <li class="pull-right"><img class="img-circle" src="@routes.Assets.versioned("images/user2-160x160.png")" alt="Connor Weng"/></li>
+                    @for(user <- menu.users) {
                     <li class="pull-right"><img class="img-circle" src="@routes.Assets.versioned("images/avatar1.png")"/></li>
-                    <li class="pull-right"><img class="img-circle" src="@routes.Assets.versioned("images/avatar2.png")"/></li>
-                    <li class="pull-right"><img class="img-circle" src="@routes.Assets.versioned("images/avatar3.png")"/></li>
+                    }
                 </ul>
             </div>
         </li>
-        <li class="pai-menu-item pull-left" style="background-color: rgb(21,234,0)">
-            <div class="pai-item-header">
-                <div class="pai-menu-name pull-left"><b>菜单调整</b></div>
-                <div class="pai-events pull-left">
-                    <ul class="no-list-style">
-                        <li class="pull-right"><i class="fa fa-mouse-pointer"></i>5</li>
-                        <li class="pull-right"><i class="fa fa-keyboard-o"></i></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="clear"></div>
-            <div class="pai-duration">
-                总用时: <span>14秒</span>
-            </div>
-            <div class="pai-users">
-                <ul class="no-list-style">
-                    <li class="pull-right"><img class="img-circle" src="@routes.Assets.versioned("images/avatar1.png")"/></li>
-                    <li class="pull-right"><img class="img-circle" src="@routes.Assets.versioned("images/avatar2.png")"/></li>
-                </ul>
-            </div>
-        </li>
-        <li class="pai-menu-item pull-left" style="background-color: rgb(42,213,0)">C</li>
-        <li class="pai-menu-item pull-left" style="background-color: rgb(63,192,0)">A</li>
-        <li class="pai-menu-item pull-left" style="background-color: rgb(84,171,0)">B</li>
-        <li class="pai-menu-item pull-left" style="background-color: rgb(105,150,0)">C</li>
-        <li class="pai-menu-item pull-left" style="background-color: rgb(126,129,0)">A</li>
-        <li class="pai-menu-item pull-left" style="background-color: rgb(147,108,0)">B</li>
-        <li class="pai-menu-item pull-left" style="background-color: rgb(168,87,0)">C</li>
-        <li class="pai-menu-item pull-left" style="background-color: rgb(189,66,0)">A</li>
-        <li class="pai-menu-item pull-left" style="background-color: rgb(200,45,0)">B</li>
-        <li class="pai-menu-item pull-left" style="background-color: rgb(221,24,0)">C</li>
+        }
     </ol>
 </div>
 
