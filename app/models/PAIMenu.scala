@@ -1,5 +1,7 @@
 package models
 
+import play.api.db.DB
+
 /**
   * Created by ConnorWeng on 2015/12/4.
   */
@@ -20,4 +22,7 @@ object PAIMenu {
   )
 
   def findAll = menus
+
+  def find = {
+  }
 }
