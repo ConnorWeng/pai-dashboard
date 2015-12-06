@@ -30,7 +30,7 @@ object PAIMenu {
       val stmt = conn.createStatement()
       val rs = stmt.executeQuery("""
         select
-          max(appId) appId, group_concat(mid separator ',') users,
+          max(appId) appId, group_concat(distinct mid separator ',') users,
           menu, max(page) page, sum(clicks) clicks, sum(duration) duration
         from menu_view
         where appId in ("http://83.24.113.34", "http://107.252.77.210")
