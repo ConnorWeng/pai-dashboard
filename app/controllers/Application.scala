@@ -8,7 +8,7 @@ import play.api.mvc._
 class Application extends Controller {
 
   def index = Action {
-    Ok(views.html.index(PAIMenu.menus))
+    Ok(views.html.index(PAIMenu.findAll))
   }
 
   def doc = Action {

@@ -1,6 +1,7 @@
 package models
 
 import play.api.db.DB
+import play.api.Play.current
 
 /**
   * Created by ConnorWeng on 2015/12/4.
@@ -21,8 +22,30 @@ object PAIMenu {
     PAIMenu("cams", List("user3", "user4"), "功能模块7", "http://somewhere.com/page7", 10L, 1900L)
   )
 
-  def findAll = menus
+  def findAllTest = menus
 
-  def find = {
+  def findAll = {
+    var menus = List[PAIMenu]()
+    DB.withConnection { conn =>
+      val stmt = conn.createStatement()
+      val rs = stmt.executeQuery("""
+        select
+          max(appId) appId, group_concat(mid separator ',') users,
+          menu, max(page) page, sum(clicks) clicks, sum(duration) duration
+        from menu_view
+        where appId in ("http://83.24.113.34", "http://107.252.77.210")
+        group by menu
+      """.stripMargin);
+      while (rs.next()) {
+        menus = menus ::: List(PAIMenu(
+          rs.getString("appId"),
+          rs.getString("users").split(",").toList,
+          rs.getString("menu"),
+          rs.getString("page"),
+          rs.getLong("clicks"),
+          rs.getLong("duration")))
+      }
+    }
+    menus.sortWith(_.duration > _.duration)
   }
 }
