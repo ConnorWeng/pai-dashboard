@@ -59,7 +59,7 @@
             <div class="pai-users">
                 <ul class="no-list-style">
                     @for(user <- menu.users) {
-                    <li class="pull-right"><img class="img-circle" src="@routes.Assets.versioned("images/avatar1.png")"/></li>
+                    <li class="pull-right" data-toggle="tooltip" title="@user"><img class="img-circle" src="@routes.Assets.versioned("images/avatar1.png")"/></li>
                     }
                 </ul>
             </div>
