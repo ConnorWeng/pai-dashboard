@@ -23,15 +23,19 @@
 }
 
 .pai-menu-name {
-  width: 30%;
+  width: 50%;
   height: 25px;
   padding-left: 5px;
   font-size: 16px;
 }
 
+.pai-menu-view-count {
+  font-size: 12px;
+}
+
 .pai-events {
   clear: right;
-  width: 70%;
+  width: 50%;
   height: 25px;
 }
 
