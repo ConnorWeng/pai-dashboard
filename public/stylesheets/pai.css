@@ -63,3 +63,9 @@
 .pai-users img {
   max-width: 25px;
 }
+
+.click-list {
+  width: 150px;
+  margin: 0;
+  padding: 0;
+}

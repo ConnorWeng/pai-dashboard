@@ -386,6 +386,27 @@ desired effect
     <!-- AdminLTE App -->
     <script src="@routes.Assets.versioned("javascripts/app.min.js")"></script>
 
+    <script>
+    $(function () {
+        $(".fa-mouse-pointer").popover({
+            container: 'body',
+            placement: 'bottom',
+            trigger: 'hover',
+            html: true,
+            content: function () {
+                var divId = 'tmp-id-' + $.now();
+                return detailsInPopup($(this).attr('pai-app-id'), $(this).attr('pai-page'), divId);
+            }
+        });
+        function detailsInPopup(appId, page, divId) {
+            $.get('/' + encodeURIComponent(appId) + '/' + encodeURIComponent(page) + '/events/click', function (d) {
+                $('#' + divId).html(d)
+            });
+            return '<div class="click-list" id="' + divId + '">Loading...</div>';
+        }
+    });
+    </script>
+
     <!-- Optionally, you can add Slimscroll and FastClick plugins.
          Both of these plugins are recommended to enhance the
          user experience. Slimscroll is required when using the

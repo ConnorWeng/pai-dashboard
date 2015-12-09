@@ -47,7 +47,9 @@
                 <div class="pai-menu-name pull-left"><b>@menu.menu</b><span class="pai-menu-view-count">(访问:@menu.clicks)</span></div>
                 <div class="pai-events pull-left">
                     <ul class="no-list-style">
-                        <li class="pull-right"><i class="fa fa-mouse-pointer"></i></li>
+                        <li class="pull-right">
+                            <i class="fa fa-mouse-pointer" pai-app-id="@menu.appId" pai-page="@menu.page"></i>
+                        </li>
                         <li class="pull-right"><i class="fa fa-keyboard-o"></i></li>
                     </ul>
                 </div>

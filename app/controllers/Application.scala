@@ -2,13 +2,17 @@ package controllers
 
 import java.lang.Long
 
-import models.PAIMenu
+import models.{PAIEvent, PAIMenu}
 import play.api.mvc._
 
 class Application extends Controller {
 
   def index = Action {
     Ok(views.html.index(PAIMenu.findAll))
+  }
+
+  def eventsClick(appId: String, page: String) = Action {
+    Ok(views.html.event(PAIEvent.find(appId, page)))
   }
 
   def doc = Action {

@@ -1,0 +1,7 @@
+@(paiEvents: List[PAIEvent])
+
+<ul class="click-list no-list-style">
+@for(event <- paiEvents) {
+    <li>@(event.srcElement)(@(event.clicks))</li>
+}
+</ul>
