@@ -3,8 +3,8 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index
-GET     /:appId/:page/events/click        controllers.Application.eventsClick(appId: String, page: String)
+GET     /                           controllers.Application.index(startTime: String ?= "", endTime: String ?= "")
+GET     /:appId/:page/events/click  controllers.Application.eventsClick(appId: String, page: String)
 
 # Doc page
 GET     /doc                        controllers.Application.doc

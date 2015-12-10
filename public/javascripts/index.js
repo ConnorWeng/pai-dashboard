@@ -1,4 +1,8 @@
 $(function () {
+    if (~window.location.search.indexOf('startTime') && ~window.location.search.indexOf('endTime')) {
+        $('input[name=startTime]').val(window.location.search.match(/startTime=([\w-]+)/)[1]);
+        $('input[name=endTime]').val(window.location.search.match(/endTime=([\w-]+)/)[1]);
+    }
     $(".fa-mouse-pointer").popover({
         container: 'body',
         placement: 'bottom',
