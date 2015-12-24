@@ -2,7 +2,9 @@ name := """pai-dashboard"""
 
 version := "0.1-SNAPSHOT"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala)
+lazy val webmodules = (project in file("plugins/web-modules-widget")).enablePlugins(PlayScala)
+
+lazy val root = (project in file(".")).enablePlugins(PlayScala).dependsOn(webmodules).aggregate(webmodules)
 
 scalaVersion := "2.11.6"
 

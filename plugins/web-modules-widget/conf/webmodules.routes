@@ -1,0 +1,3 @@
+GET     /                           controllers.webmodules.Application.index()
+GET     /assets/*file               controllers.webmodules.Assets.versioned(path="/public/plugins/webmodules", file: Asset)
+
