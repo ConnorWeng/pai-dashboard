@@ -388,10 +388,12 @@ desired effect
     <!-- Bootstrap 3.3.5 -->
     <script src="@routes.Assets.versioned("javascripts/bootstrap.min.js")"></script>
     <!-- React 0.14.3 -->
-    <script src="@routes.Assets.versioned("javascripts/react.js")"></script>
-    <script src="@routes.Assets.versioned("javascripts/react-dom.js")"></script>
+    <script src="@routes.WebJarAssets.at(WebJarAssets.locate("react.js"))"></script>
+    <script src="@routes.WebJarAssets.at(WebJarAssets.locate("react-dom.js"))"></script>
     <!-- AdminLTE App -->
     <script src="@routes.Assets.versioned("javascripts/app.min.js")"></script>
+    <!-- FIXME: should move into plugins directory -->
+    <script src="@routes.Assets.versioned("javascripts/webmodules.js")"></script>
     <!-- User script -->
     @if(!jsName.isEmpty) {
     <script src="@routes.Assets.versioned(s"javascripts/$jsName.js")"></script>

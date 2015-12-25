@@ -2,7 +2,6 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
 GET     /core                       controllers.Core.index
 GET     /                           controllers.Application.index(startTime: String ?= "", endTime: String ?= "")
 GET     /:appId/:page/events/click  controllers.Application.eventsClick(appId: String, page: String)
@@ -12,5 +11,6 @@ GET     /doc                        controllers.Application.doc
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET     /webjars/*file              controllers.WebJarAssets.at(file)
 
 ->      /webmodules                 webmodules.Routes
