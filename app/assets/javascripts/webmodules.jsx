@@ -36,7 +36,7 @@ var WebModulesWidget = React.createClass({
     };
   },
   componentDidMount: function() {
-    $.get('/webmodules/modules', function(modules) {
+    $.get(this.props.source, function(modules) {
       if (this.isMounted()) {
         this.setState({modules: modules});
       }
