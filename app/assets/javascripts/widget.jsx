@@ -2,7 +2,7 @@ var WidgetFooter = React.createClass({
   render: function() {
     return (
       <div className="box-footer text-center">
-          <a className="uppercase" href="#">查看详情</a>
+          {this.props.children}
       </div>
     );
   }
@@ -12,26 +12,7 @@ var WidgetBody = React.createClass({
   render: function() {
     return (
       <div className="box-body">
-          <div className="table-responsive">
-              <table className="table no-margin">
-                  <thead>
-                      <tr>
-                          <th>模块</th>
-                          <th>总用时</th>
-                          <th>人员</th>
-                          <th>事件</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <tr>
-                          <td>test text</td>
-                          <td>test text</td>
-                          <td>test text</td>
-                          <td>test text</td>
-                      </tr>
-                  </tbody>
-              </table>
-          </div>
+          {this.props.children}
       </div>
     );
   }
@@ -50,18 +31,6 @@ var WidgetHeader = React.createClass({
                   <i className="fa fa-times"></i>
               </button>
           </div>
-      </div>
-    );
-  }
-});
-
-var Widget = React.createClass({
-  render: function() {
-    return (
-      <div className="box box-danger">
-          <WidgetHeader title={this.props.title} />
-          <WidgetBody />
-          <WidgetFooter />
       </div>
     );
   }
