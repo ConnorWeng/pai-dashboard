@@ -392,6 +392,21 @@ desired effect
     <script src="@routes.WebJarAssets.at(WebJarAssets.locate("react-dom.js"))"></script>
     <!-- AdminLTE App -->
     <script src="@routes.Assets.versioned("javascripts/app.min.js")"></script>
+    <!-- extend string -->
+    <script>
+     String.prototype.toHHMMSS = function () {
+       var sec_num = this; // don't forget the second param
+       var hours   = Math.floor(sec_num / 3600);
+       var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+       var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+       if (hours   < 10) {hours   = "0"+hours;}
+       if (minutes < 10) {minutes = "0"+minutes;}
+       if (seconds < 10) {seconds = "0"+seconds;}
+       var time    = hours+':'+minutes+':'+seconds;
+       return time;
+     }
+    </script>
     <!-- FIXME: should move into plugins directory -->
     <script src="@routes.Assets.versioned("javascripts/widget.js")"></script>
     <script src="@routes.Assets.versioned("javascripts/webmodules.js")"></script>

@@ -13,7 +13,7 @@ var WebModule = React.createClass({
     return (
       <tr>
           <td>{this.props.module.name}<span style={{fontSize: '12px'}}>(访问: {this.props.module.clicks})</span></td>
-          <td>{this.props.module.duration}</td>
+          <td>{Math.floor(this.props.module.duration / 1000).toString().toHHMMSS()}</td>
           <td>
               <ul className="no-list-style" style={{paddingLeft: 0}}>
               {
@@ -31,16 +31,22 @@ var WebModule = React.createClass({
 var WebModulesWidget = React.createClass({
   getInitialState: function() {
     return {
-      modules: [
-        {name: '模块1', clicks: '17', duration: '11:12:03', users: ['user-a', 'user-b', 'user-c', 'user-d']},
-        {name: '模块2', clicks: '2', duration: '01:13:43', users: ['user-c']}
-      ]
+      modules: []
     };
   },
-  componentWillMount: function() {
-    $.ajax()
+  componentDidMount: function() {
+    $.get('/webmodules/modules', function(modules) {
+      if (this.isMounted()) {
+        this.setState({modules: modules});
+      }
+    }.bind(this));
   },
   render: function() {
+    var modules = [];
+    for (var index = 0; index < this.state.modules.length && index < 6; index++) {
+      var module = this.state.modules[index];
+      modules.push(<WebModule module={module} key={module.name} />);
+    }
     return (
       <div className="box box-danger">
           <WidgetHeader title="网站模块" />
@@ -55,11 +61,7 @@ var WebModulesWidget = React.createClass({
                           </tr>
                       </thead>
                       <tbody>
-                          {
-                            this.state.modules.map(function(module) {
-                              return <WebModule module={module} key={module.name} />;
-                            })
-                          }
+                          {modules}
                       </tbody>
                   </table>
               </div>
