@@ -12,7 +12,8 @@ var WebModule = React.createClass({
   render: function() {
     return (
       <tr>
-          <td>{this.props.module.name}<span style={{fontSize: '12px'}}>(访问: {this.props.module.clicks})</span></td>
+          <td>{this.props.module.name}</td>
+          <td>{this.props.module.clicks}</td>
           <td>{Math.floor(this.props.module.duration / 1000).toString().toHHMMSS()}</td>
           <td>
               <ul className="no-list-style" style={{paddingLeft: 0}}>
@@ -56,6 +57,7 @@ var WebModulesWidget = React.createClass({
                       <thead>
                           <tr>
                               <th>模块</th>
+                              <th>访问次数</th>
                               <th>总用时</th>
                               <th>人员</th>
                           </tr>
