@@ -2,7 +2,7 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET     /core                       controllers.Core.index
+GET     /dashboard                       controllers.Dashboard.index
 GET     /                           controllers.Application.index(startTime: String ?= "", endTime: String ?= "")
 GET     /:appId/:page/events/click  controllers.Application.eventsClick(appId: String, page: String)
 
