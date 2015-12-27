@@ -1,3 +1,4 @@
 GET     /                           controllers.webmodules.Application.index()
+GET     /modules                    controllers.webmodules.Application.findWebModulesByTime()
 GET     /assets/*file               controllers.webmodules.Assets.versioned(path="/public/plugins/webmodules", file: Asset)
 

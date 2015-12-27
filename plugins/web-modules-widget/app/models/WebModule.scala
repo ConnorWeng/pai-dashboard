@@ -1,4 +1,4 @@
-package models
+package models.webmodules
 
 import play.api.Play.current
 import play.api.db.DB
