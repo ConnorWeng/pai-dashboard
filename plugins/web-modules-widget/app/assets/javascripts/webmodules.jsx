@@ -10,8 +10,10 @@ var WebModuleUser = React.createClass({
 
 var WebModule = React.createClass({
   render: function() {
+    var index = this.props.index + 1;
+    var rgb = 'rgba(' + (240/6*index) + ',' + (240-(240/6*index)) + ',0,0.5)';
     return (
-      <tr>
+      <tr style={{backgroundColor: rgb}}>
           <td>{this.props.module.name}</td>
           <td>{this.props.module.clicks}</td>
           <td>{Math.floor(this.props.module.duration / 1000).toString().toHHMMSS()}</td>
@@ -46,7 +48,7 @@ var WebModulesWidget = React.createClass({
     var modules = [];
     for (var index = 0; index < this.state.modules.length && index < 6; index++) {
       var module = this.state.modules[index];
-      modules.push(<WebModule module={module} key={module.name} />);
+      modules.push(<WebModule module={module} key={module.name} index={index} />);
     }
     return (
       <div className="box box-danger">
