@@ -3,11 +3,14 @@ package controllers
 import java.lang.Long
 import java.text.DateFormat
 import java.util.Date
+import javax.inject.Inject
 
+import dao.BaseDAO
 import models.{PAIEvent, PAIMenu}
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.mvc._
 
-class Application extends Controller {
+class Application @Inject()(baseDAO: BaseDAO) extends Controller {
 
   def index(startTime: String, endTime: String) = Action {
     val df = DateFormat.getDateInstance()
@@ -18,6 +21,10 @@ class Application extends Controller {
 
   def eventsClick(appId: String, page: String) = Action {
     Ok(views.html.event(PAIEvent.find(appId, page)))
+  }
+
+  def bases() = Action.async {
+    baseDAO.all().map(b => Ok("ok"))
   }
 
   def doc = Action {

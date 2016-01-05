@@ -9,11 +9,12 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb).dependsO
 scalaVersion := "2.11.6"
 
 libraryDependencies ++= Seq(
-  jdbc,
   cache,
   ws,
   specs2 % Test,
   "mysql" % "mysql-connector-java" % "5.1.37",
+  "com.typesafe.play" %% "play-slick" % "1.1.1",
+  "com.typesafe.play" %% "play-slick-evolutions" % "1.1.1",
   "org.webjars" %% "webjars-play" % "2.4.0-1",
   "org.webjars" % "react" % "0.14.3"
 )
