@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS `module_daily` (
   `app_name` VARCHAR(45) NOT NULL,
   `module_id` INT UNSIGNED NOT NULL,
   `module_name` VARCHAR(45) NOT NULL,
+  `module_view` INT UNSIGNED NOT NULL,
   `duration` BIGINT(13) UNSIGNED NOT NULL,
   `day_id` INT(8) UNSIGNED NOT NULL,
   PRIMARY KEY (`module_daily_id`),
