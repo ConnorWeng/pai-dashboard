@@ -4,7 +4,7 @@ import com.google.inject.Inject
 import dao.ModuleDAO
 import models.webmodules.WebModule
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, Writes}
 import play.api.mvc.{Action, Controller}
 
 /**
@@ -21,11 +21,18 @@ class Application @Inject()(moduleDAO: ModuleDAO) extends Controller {
   }
 
   def modules = Action.async {
+    implicit val moduleWrites = new Writes[(String, Long, String)] {
+      def writes(t: (String, Long, String)) = Json.obj(
+        "moduleName" -> t._1,
+        "duration" -> t._2,
+        "machineName" -> t._3
+      )
+    }
     moduleDAO.all().map { result =>
       val rs = for {
         (module, machine) <- result
       } yield (module.moduleName, module.duration, machine.machineName)
-      Ok(rs.toString)
+      Ok(Json.toJson(rs))
     }
   }
 }
