@@ -1,10 +1,9 @@
-package dao
+package dao.webmodules
 
 import com.google.inject.Inject
-import models.{ModuleMachineDaily, ModuleDaily}
-import play.api.db.slick.{HasDatabaseConfigProvider, DatabaseConfigProvider}
+import models.webmodules.WebModule
+import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.driver.JdbcProfile
-import slick.lifted.ProvenShape
 
 /**
   * Created by ConnorWeng on 2016/1/5.
@@ -12,28 +11,18 @@ import slick.lifted.ProvenShape
 class ModuleDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
   import driver.api._
 
-  val ModuleDailies = TableQuery[ModuleDailyTable]
-  val ModuleMachineDailies = TableQuery[ModuleMachineDailyTable]
+  def all() = {
+    val query = for {
+      md <- Tables.ModuleDaily
+      mmd <- Tables.ModuleMachineDaily if mmd.moduleDailyId === md.moduleDailyId
+    } yield (md.appName, md.moduleName, md.moduleView, md.duration, mmd.machineName)
 
-  def all() = db.run((ModuleDailies join ModuleMachineDailies on (_.moduleDailyId === _.moduleDailyId)).result)
+    import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
-  class ModuleDailyTable(tag: Tag) extends Table[ModuleDaily](tag, "module_daily") {
-    def moduleDailyId = column[Int]("module_daily_id", O.PrimaryKey)
-    def appId = column[Int]("app_id")
-    def appName = column[String]("app_name")
-    def moduleId = column[Int]("module_id")
-    def moduleName = column[String]("module_name")
-    def duration = column[Long]("duration")
-    def dayId = column[Int]("day_id")
-
-    override def * : ProvenShape[ModuleDaily] = (moduleDailyId, appId, appName, moduleId, moduleName, duration, dayId) <> (ModuleDaily.tupled, ModuleDaily.unapply)
-  }
-
-  class ModuleMachineDailyTable(tag: Tag) extends Table[ModuleMachineDaily](tag, "module_machine_daily") {
-    def moduleDailyId = column[Int]("module_daily_id", O.PrimaryKey)
-    def machineId = column[Int]("machine_id", O.PrimaryKey)
-    def machineName = column[String]("machine_name")
-
-    override def * : ProvenShape[ModuleMachineDaily] = (moduleDailyId, machineId, machineName) <> (ModuleMachineDaily.tupled, ModuleMachineDaily.unapply)
+    db.run(query.result).map { result =>
+      result.groupBy(t => (t._1, t._2, t._3, t._4)).map { case (keys, values) =>
+        WebModule(keys._1, keys._2, values.map(_._5.get).toList, keys._3, keys._4)
+      }
+    }
   }
 }

@@ -12,14 +12,14 @@ var WebModule = React.createClass({
   render: function() {
     return (
       <tr>
-          <td>{this.props.module.name}</td>
-          <td>{this.props.module.clicks}</td>
+          <td>{this.props.module.moduleName}</td>
+          <td>{this.props.module.moduleView}</td>
           <td>{Math.floor(this.props.module.duration / 1000).toString().toHHMMSS()}</td>
           <td>
               <ul className="no-list-style" style={{paddingLeft: 0}}>
               {
-                this.props.module.users.map(function(user) {
-                  return <WebModuleUser user={user} key={user} />
+                this.props.module.machineNames.map(function(name) {
+                  return <WebModuleUser user={name} key={name} />
                 })
               }
               </ul>
@@ -46,7 +46,7 @@ var WebModulesWidget = React.createClass({
     var modules = [];
     for (var index = 0; index < this.state.modules.length && index < 6; index++) {
       var module = this.state.modules[index];
-      modules.push(<WebModule module={module} key={module.name} />);
+      modules.push(<WebModule module={module} key={module.moduleName} />);
     }
     return (
       <div className="box box-danger">
