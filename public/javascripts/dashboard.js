@@ -4,3 +4,8 @@ ReactDOM.render(
   React.createElement(WebModulesWidget, {source: '/webmodules/modules'}),
   document.getElementById('web-modules-widget')
 );
+
+ReactDOM.render(
+  React.createElement(DateRangePicker, null),
+  document.getElementById('date-range-picker')
+);
