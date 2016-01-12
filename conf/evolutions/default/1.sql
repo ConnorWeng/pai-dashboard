@@ -83,7 +83,21 @@ CREATE TABLE IF NOT EXISTS `machine` (
   `machine_name` VARCHAR(45) NULL DEFAULT NULL,
   `browser` VARCHAR(45) NULL DEFAULT NULL,
   `resolution` VARCHAR(45) NULL DEFAULT NULL,
-  PRIMARY KEY (`machine_id`))
+  `first_day_id` INT(8) UNSIGNED NOT NULL,
+  `last_day_id` INT(8) UNSIGNED NOT NULL,
+  PRIMARY KEY (`machine_id`),
+  INDEX `first_day_id_idx` (`first_day_id` ASC),
+  INDEX `last_day_id_idx` (`last_day_id` ASC),
+  CONSTRAINT `machine_first_day_fk`
+    FOREIGN KEY (`first_day_id`)
+    REFERENCES `day` (`day_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `machine_last_day_fk`
+    FOREIGN KEY (`last_day_id`)
+    REFERENCES `day` (`day_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
