@@ -15,13 +15,14 @@ class ModuleDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider
     val query = for {
       md <- Tables.ModuleDaily
       mmd <- Tables.ModuleMachineDaily if mmd.moduleDailyId === md.moduleDailyId
-    } yield (md.appName, md.moduleName, md.moduleView, md.duration, mmd.machineName)
+    } yield (md.moduleDailyId, md.appId, md.appName, md.moduleId, md.moduleName, mmd.machineName, md.moduleView, md.duration, md.dayId)
 
     import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
     db.run(query.result).map { result =>
-      result.groupBy(t => (t._1, t._2, t._3, t._4)).map { case (keys, values) =>
-        WebModule(keys._1, keys._2, values.map(_._5.get).toList, keys._3, keys._4)
+      result.groupBy(t => t._1).map { case (moduleDailyId, fields) =>
+        val head = fields.head
+        WebModule(moduleDailyId, head._2, head._3, head._4, head._5, fields.map(_._6.get).toList, head._7, head._8, head._9)
       }
     }
   }
