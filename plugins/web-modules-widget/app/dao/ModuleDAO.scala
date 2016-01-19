@@ -5,15 +5,19 @@ import models.webmodules.WebModule
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.driver.JdbcProfile
 
+import scala.concurrent.Future
+
 /**
   * Created by ConnorWeng on 2016/1/5.
   */
 class ModuleDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
   import driver.api._
 
-  def all() = {
+  def all(): Future[Iterable[WebModule]] = all(20000101, 29991231)
+
+  def all(startDate: Int, endDate: Int): Future[Iterable[WebModule]] = {
     val query = for {
-      md <- Tables.ModuleDaily
+      md <- Tables.ModuleDaily if md.dayId >= startDate && md.dayId <= endDate
       mmd <- Tables.ModuleMachineDaily if mmd.moduleDailyId === md.moduleDailyId
     } yield (md.moduleDailyId, md.appId, md.appName, md.moduleId, md.moduleName, mmd.machineName, md.moduleView, md.duration, md.dayId)
 
