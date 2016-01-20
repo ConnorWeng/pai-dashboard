@@ -20,7 +20,7 @@ class Application @Inject()(moduleDAO: ModuleDAO) extends Controller {
     moduleDAO.all().map { rs =>
       val result = rs.groupBy(_.moduleId).map { case (moduleId, webModules) =>
         val m = webModules.head
-        val machineNames = webModules./:[List[String]](List())(_ ::: _.machineNames)
+        val machineNames = (webModules./:[List[String]](List())(_ ::: _.machineNames)).distinct
         val moduleView = webModules./:[Long](0)(_ + _.moduleView)
         val duration = webModules./:[Long](0)(_ + _.duration)
         WebModule(0, m.appId, m.appName, moduleId, m.moduleName, machineNames, moduleView, duration, 0)
