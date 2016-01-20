@@ -18,7 +18,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.slick" %% "slick-codegen" % "3.1.0",
   "org.webjars" %% "webjars-play" % "2.4.0-1",
   "org.webjars" % "react" % "0.14.3",
-  "org.webjars.npm" % "moment" % "2.11.1"
+  "org.webjars" % "momentjs" % "2.11.1"
 )
 
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
