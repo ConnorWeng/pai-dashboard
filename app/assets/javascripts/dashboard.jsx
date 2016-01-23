@@ -82,26 +82,8 @@ var Dashboard = React.createClass({
           </div>
           <div className="row">
               <div className="col-xs-12 col-md-8">
-                  <div id="web-modules-widget">
-                      <WebModulesWidget source="/webmodules/modules" startDate={this.state.startDate} endDate={this.state.endDate} />
-                  </div>
-                  <div id="mouse-move-widget">
-                      <div className="box box-danger">
-                          <div className="box-header with-border">
-                              <h3 className="box-title">鼠标轨迹</h3>
-                              <div className="box-tools pull-right">
-                                  <button className="btn btn-box-tool" type="button" data-widget="collapse">
-                                      <i className="fa fa-minus"></i>
-                                  </button>
-                                  <button className="btn btn-box-tool" type="button" data-widget="remove">
-                                      <i className="fa fa-times"></i>
-                                  </button>
-                              </div>
-                          </div>
-                          <div className="box-body"></div>
-                          <div className="box-footer no-padding"></div>
-                      </div>
-                  </div>
+                  <WebModulesWidget source="/webmodules/modules" startDate={this.state.startDate} endDate={this.state.endDate} />
+                  <MouseMoveWidget />
               </div>
               <div className="col-xs-12 col-md-4">
                   <div className="box box-default">

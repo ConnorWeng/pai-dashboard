@@ -4,7 +4,9 @@ version := "0.1-SNAPSHOT"
 
 lazy val webmodules = (project in file("plugins/web-modules-widget")).enablePlugins(PlayScala, SbtWeb)
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb).dependsOn(webmodules).aggregate(webmodules)
+lazy val mousemove = (project in file("plugins/mouse-move-widget")).enablePlugins(PlayScala, SbtWeb)
+
+lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb).dependsOn(webmodules, mousemove).aggregate(webmodules, mousemove)
 
 scalaVersion := "2.11.6"
 
