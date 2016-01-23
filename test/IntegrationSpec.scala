@@ -1,3 +1,6 @@
+import java.util.concurrent.TimeUnit
+
+import org.fluentlenium.core.filter.FilterConstructor._
 import org.junit.runner._
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
@@ -29,7 +32,14 @@ class IntegrationSpec extends Specification {
 
     "display web modules according to date range" in new WithChrome {
       browser.goTo("http://localhost:" + port + "/dashboard")
-      browser.pageSource must contain("PAIDashboard")
+      browser
+        .click("#main-date-range-picker")
+        .fill(".input-mini", withName("daterangepicker_start")).`with`("12/01/2015")
+        .fill(".input-mini", withName("daterangepicker_end")).`with`("12/02/2015")
+        .click(".applyBtn")
+      browser.$("#main-date-range-picker").getValue must contain("12/01/2015 - 12/02/2015")
+      browser.await().atMost(5, TimeUnit.SECONDS).until(".web-modules-table > tbody").containsText("00:00:10")
+      browser.$(".web-modules-table > tbody").getText must contain("00:00:10")
     }
 
   }

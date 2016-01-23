@@ -1,19 +1,31 @@
 // TODO: load user config decide which widgets should be shown
 
 var Dashboard = React.createClass({
+  getInitialState: function() {
+    return {
+      startDate: moment().subtract(1, 'month'),
+      endDate: moment().subtract(1, 'day')
+    };
+  },
+  dateChange: function(startDate, endDate) {
+    this.setState({
+      startDate: startDate,
+      endDate: endDate
+    });
+  },
   render: function() {
     return (
       <div className="container-fluid">
           <div className="row" style={{marginBottom: '10px'}}>
               <div className="col-xs-4 pull-right" id="date-range-picker">
-                  <DateRangePicker />
+                  <DateRangePicker trigger={this.trigger} startDate={this.state.startDate} endDate={this.state.endDate} dateChange={this.dateChange}/>
               </div>
           </div>
           <div className="row">
               <div className="col-xs-12 col-md-8">
                   <div className="row">
                       <div className="col-xs-12" id="web-modules-widget">
-                          <WebModulesWidget source="/webmodules/modules" />
+                          <WebModulesWidget source="/webmodules/modules" startDate={this.state.startDate} endDate={this.state.endDate} />
                       </div>
                   </div>
               </div>

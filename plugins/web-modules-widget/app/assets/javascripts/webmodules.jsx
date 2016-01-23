@@ -37,12 +37,16 @@ var WebModulesWidget = React.createClass({
       modules: []
     };
   },
-  componentDidMount: function() {
-    $.get(this.props.source, function(modules) {
-      if (this.isMounted()) {
-        this.setState({modules: modules});
-      }
+  updateState: function(props) {
+    $.get(props.source + '/' + props.startDate.format('YYYYMMDD') + '/' + props.endDate.format('YYYYMMDD'), function(modules) {
+      this.setState({modules: modules});
     }.bind(this));
+  },
+  componentDidMount: function() {
+    this.updateState(this.props);
+  },
+  componentWillReceiveProps: function(nextProps) {
+    this.updateState(nextProps);
   },
   render: function() {
     var modules = [];
