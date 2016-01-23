@@ -13,12 +13,21 @@ var Dashboard = React.createClass({
       endDate: endDate
     });
   },
+  componentDidMount: function() {
+    $('#app').select2();
+  },
   render: function() {
     return (
       <div className="container-fluid">
           <div className="row" style={{marginBottom: '10px'}}>
-              <div className="col-xs-4 pull-right" id="date-range-picker">
+              <div className="col-xs-6 col-md-4 pull-right" id="date-range-picker">
                   <DateRangePicker trigger={this.trigger} startDate={this.state.startDate} endDate={this.state.endDate} dateChange={this.dateChange}/>
+              </div>
+              <div className="col-xs-6 col-md-2 pull-right">
+                  <select className="select2 form-control" id="app" name="app">
+                      <option value="CMAS">CMAS</option>
+                      <option value="SMIS">SMIS</option>
+                  </select>
               </div>
           </div>
           <div className="row">
