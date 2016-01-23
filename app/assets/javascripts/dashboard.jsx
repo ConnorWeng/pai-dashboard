@@ -123,6 +123,9 @@ var Dashboard = React.createClass({
                               <li><a href="#">北京
                                   <span className="pull-right text-yellow"><i className="fa fa-angle-left"></i> 0%</span></a></li>
                           </ul>
+                          <div className="text-center" style={{padding: 10}}>
+                              <a href="#">查看详情</a>
+                          </div>
                       </div>
                   </div>
               </div>
