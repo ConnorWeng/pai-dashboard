@@ -69,3 +69,27 @@
   margin: 0;
   padding: 0;
 }
+
+.play circle {
+  fill: #fff;
+  stroke: #000;
+  stroke-width: 3px;
+}
+
+.play rect {
+  fill: none;
+  pointer-events: all;
+  cursor: pointer;
+}
+
+.play:hover path {
+  fill: #f00;
+}
+
+.play.mousedown circle {
+  fill: #f00;
+}
+
+.play.mousedown path {
+  fill: #fff;
+}
