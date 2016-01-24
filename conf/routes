@@ -16,3 +16,4 @@ GET     /webjars/*file              controllers.WebJarAssets.at(file)
 
 ->      /webmodules                 webmodules.Routes
 ->      /mousemove                  mousemove.Routes
+->      /browser                    browser.Routes
