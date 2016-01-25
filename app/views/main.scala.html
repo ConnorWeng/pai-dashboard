@@ -266,11 +266,11 @@ desired effect
                 <ul class="sidebar-menu">
                     <li class="header">导航</li>
                     <!-- Optionally, you can add icons to the links -->
-                    <li class="active"><a href="/dashboard"><i class="fa fa-dashboard"></i> <span>仪表盘</span></a></li>
+                    <li class="dashboard-menu"><a href="/dashboard"><i class="fa fa-dashboard"></i> <span>仪表盘</span></a></li>
                     <li class="treeview">
                         <a href="#"><i class="fa fa-cog"></i> <span>控制面板</span> <i class="fa fa-angle-left pull-right"></i></a>
                         <ul class="treeview-menu">
-                            <li><a href="/admin/newapp"><i class="fa fa-circle-o"></i> <span>追踪新应用</span></a></li>
+                            <li class="newapp-menu"><a href="/admin/newapp"><i class="fa fa-circle-o"></i> <span>追踪新应用</span></a></li>
                         </ul>
                     </li>
                 </ul>
@@ -414,6 +414,9 @@ desired effect
     <script src="@routes.Assets.versioned("javascripts/app.min.js")"></script>
     <!-- extend string -->
     <script>
+     $('.@{jsName}-menu').addClass('active');
+     $('.@{jsName}-menu').parents('li').first().addClass('active');
+
      String.prototype.toHHMMSS = function () {
        var sec_num = this; // don't forget the second param
        var hours   = Math.floor(sec_num / 3600);
