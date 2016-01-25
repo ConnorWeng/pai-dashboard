@@ -266,7 +266,7 @@ desired effect
                 <ul class="sidebar-menu">
                     <li class="header">导航</li>
                     <!-- Optionally, you can add icons to the links -->
-                    <li class="active"><a href="#"><i class="fa fa-dashboard"></i> <span>仪表盘</span></a></li>
+                    <li class="active"><a href="/dashboard"><i class="fa fa-dashboard"></i> <span>仪表盘</span></a></li>
                     <li class="treeview">
                         <a href="#"><i class="fa fa-cog"></i> <span>控制面板</span> <i class="fa fa-angle-left pull-right"></i></a>
                         <ul class="treeview-menu">
@@ -429,6 +429,7 @@ desired effect
     </script>
     <!-- FIXME: should dynamically load from dashboard.js -->
     <script src="@routes.Assets.versioned("javascripts/widget.js")"></script>
+    <script src="@routes.Assets.versioned("javascripts/advanced-config.js")"></script>
     <script src="@routes.Assets.versioned("javascripts/date-range-picker.js")"></script>
     <script src="@controllers.webmodules.routes.Assets.versioned("javascripts/webmodules.js")"></script>
     <script src="@routes.Assets.versioned("javascripts/mousemove.data.js")"></script>
