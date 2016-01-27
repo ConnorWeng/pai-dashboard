@@ -40,6 +40,7 @@ var Dashboard = React.createClass({
       this.appChange();
       this.updateVisitors();
     }.bind(this));
+    this.updateVisitors();
   },
   render: function() {
     return (
@@ -107,7 +108,7 @@ var Dashboard = React.createClass({
           </div>
           <div className="row">
               <div className="col-xs-12 col-md-8">
-                  <WebModulesWidget source="/webmodules/modules" startDate={this.state.startDate} endDate={this.state.endDate} />
+                  <WebModulesWidget appId={this.state.appId} startDate={this.state.startDate} endDate={this.state.endDate} />
                   <MouseMoveWidget />
               </div>
               <div className="col-xs-12 col-md-4">

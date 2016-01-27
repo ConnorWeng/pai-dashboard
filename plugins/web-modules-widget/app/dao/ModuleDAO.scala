@@ -13,11 +13,11 @@ import scala.concurrent.Future
 class ModuleDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
   import driver.api._
 
-  def all(): Future[Iterable[WebModule]] = all(20000101, 29991231)
+  def all(): Future[Iterable[WebModule]] = all(1, 20000101, 29991231)
 
-  def all(startDate: Int, endDate: Int): Future[Iterable[WebModule]] = {
+  def all(appId: Int, startDate: Int, endDate: Int): Future[Iterable[WebModule]] = {
     val query = for {
-      md <- Tables.ModuleDaily if md.dayId >= startDate && md.dayId <= endDate
+      md <- Tables.ModuleDaily if md.dayId >= startDate && md.dayId <= endDate && md.appId === appId
       mmd <- Tables.ModuleMachineDaily if mmd.moduleDailyId === md.moduleDailyId
     } yield (md.moduleDailyId, md.appId, md.appName, md.moduleId, md.moduleName, mmd.machineName, md.moduleView, md.duration, md.dayId)
 

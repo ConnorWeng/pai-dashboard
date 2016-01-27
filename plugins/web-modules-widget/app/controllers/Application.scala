@@ -16,8 +16,8 @@ class Application @Inject()(moduleDAO: ModuleDAO) extends Controller {
     Ok("web modules")
   }
 
-  def modules(startDate: Int, endDate: Int) = Action.async {
-    moduleDAO.all(startDate, endDate).map { rs =>
+  def modules(appId: Int, startDate: Int, endDate: Int) = Action.async {
+    moduleDAO.all(appId, startDate, endDate).map { rs =>
       val result = rs.groupBy(_.moduleId).map { case (moduleId, webModules) =>
         val m = webModules.head
         val machineNames = (webModules./:[List[String]](List())(_ ::: _.machineNames)).distinct
