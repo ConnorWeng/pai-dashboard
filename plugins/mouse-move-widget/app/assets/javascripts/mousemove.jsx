@@ -1,5 +1,6 @@
 var MouseMoveWidget = React.createClass({
   startPlay: function() {
+    var data = this.props.appId === 1 ? data : smisData;
     var svg = d3.select('#mousemove-svg');
     var mouse = svg.append('circle')
                    .attr('r', '4')
@@ -101,7 +102,11 @@ var MouseMoveWidget = React.createClass({
       <div className="box box-danger">
           <WidgetHeader title="鼠标轨迹" />
           <WidgetBody>
-              <p className="text-center">top page: <strong>TYQuery.tableQuerya</strong></p>
+              <p className="text-center">top page:
+                  <strong>
+                      { this.props.appId === 1 ? 'TYQuery.tableQuerya' : 'smis.admin.userMgmt.AdminEditDetail' }
+                  </strong>
+              </p>
               <div className="canvas" id="canvas"></div>
           </WidgetBody>
           <WidgetFooter>

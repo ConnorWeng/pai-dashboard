@@ -109,7 +109,7 @@ var Dashboard = React.createClass({
           <div className="row">
               <div className="col-xs-12 col-md-8">
                   <WebModulesWidget appId={this.state.appId} startDate={this.state.startDate} endDate={this.state.endDate} />
-                  <MouseMoveWidget />
+                  <MouseMoveWidget appId={this.state.appId} />
               </div>
               <div className="col-xs-12 col-md-4">
                   <BrowserWidget />
