@@ -1,2 +1,3 @@
-GET     /                            controllers.visitor.Application.index
-GET     /assets/*file                controllers.visitor.Assets.versioned(path="/public/lib/visitor", file: Asset)
+GET     /                               controllers.visitor.Application.index
+GET     /visitors/:startDate/:endDate   controllers.visitor.Application.visitors(startDate: Int, endDate: Int)
+GET     /assets/*file                   controllers.visitor.Assets.versioned(path="/public/lib/visitor", file: Asset)
