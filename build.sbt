@@ -8,7 +8,9 @@ lazy val mousemove = (project in file("plugins/mouse-move-widget")).enablePlugin
 
 lazy val browser = (project in file("plugins/browser-widget")).enablePlugins(PlayScala, SbtWeb)
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb).dependsOn(webmodules, mousemove, browser).aggregate(webmodules, mousemove, browser)
+lazy val visitor = (project in file("plugins/visitor")).enablePlugins(PlayScala, SbtWeb)
+
+lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb).dependsOn(webmodules, mousemove, browser, visitor).aggregate(webmodules, mousemove, browser, visitor)
 
 scalaVersion := "2.11.6"
 
