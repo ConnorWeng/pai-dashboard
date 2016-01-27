@@ -11,14 +11,15 @@ import slick.driver.JdbcProfile
 class VisitorDailyDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
   import driver.api._
 
-  def all(startDate: Int, endDate: Int) = {
+  def all(appId: Int, startDate: Int, endDate: Int) = {
     val query = Tables.VisitorDaily
+      .filter(_.appId === appId)
       .filter(_.dayId >= startDate)
       .filter(_.dayId <= endDate)
-      .groupBy(r => (r.appId, r.dayId))
-      .map { case (keys, fields) =>
-        (keys._1, fields.map(_.pageViews).sum, fields.map(_.sessions).sum, fields.map(_.bounceRate).sum,
-          fields.map(_.uniqueVisitors).sum, keys._2)
+      .groupBy(_.appId)
+      .map { case (appId, fields) =>
+        (appId, fields.map(_.pageViews).sum, fields.map(_.sessions).sum, fields.map(_.bounceRate).sum,
+          fields.map(_.uniqueVisitors).sum, 0)
       }
 
     import play.api.libs.concurrent.Execution.Implicits.defaultContext
@@ -26,7 +27,7 @@ class VisitorDailyDAO @Inject()(protected val dbConfigProvider: DatabaseConfigPr
     db.run(query.result).map { rows =>
       rows.map { row =>
         Visitors(row._1, row._2.getOrElse(0), row._3.getOrElse(0), row._4.getOrElse(0), row._5.getOrElse(0), row._6)
-      }
+      }.headOption
     }
   }
 

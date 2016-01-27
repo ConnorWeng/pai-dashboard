@@ -2,6 +2,7 @@ package controllers.visitor
 
 import com.google.inject.Inject
 import dao.visitor.VisitorDailyDAO
+import models.visitor.Visitors
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json.Json
 import play.api.mvc.{Action, Controller}
@@ -15,9 +16,9 @@ class Application @Inject()(visitorDailyDAO: VisitorDailyDAO) extends Controller
     Ok("visitor")
   }
 
-  def visitors(startDate: Int, endDate: Int) = Action.async {
-    visitorDailyDAO.all(startDate, endDate).map( rs =>
-      Ok(Json.toJson(rs))
+  def visitors(appId: Int, startDate: Int, endDate: Int) = Action.async {
+    visitorDailyDAO.all(appId, startDate, endDate).map( rs =>
+      Ok(Json.toJson(rs.getOrElse(Visitors(appId, 0, 0, 0, 0, 0))))
     )
   }
 

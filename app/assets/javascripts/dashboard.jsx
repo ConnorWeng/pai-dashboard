@@ -4,17 +4,42 @@ var Dashboard = React.createClass({
   getInitialState: function() {
     return {
       startDate: moment().subtract(1, 'month'),
-      endDate: moment().subtract(1, 'day')
+      endDate: moment().subtract(1, 'day'),
+      appId: 1,
+      pageViews: 0,
+      sessions: 0,
+      bounceRate: 0,
+      uniqueVisitors: 0
     };
+  },
+  updateVisitors: function() {
+    $.get('/visitor/visitors/' + this.state.appId + '/' + this.state.startDate.format('YYYYMMDD') + '/' + this.state.endDate.format('YYYYMMDD'), function(visitors) {
+      this.setState({
+        pageViews: visitors.pageViews,
+        sessions: visitors.sessions,
+        bounceRate: visitors.bounceRate,
+        uniqueVisitors: visitors.uniqueVisitors
+      });
+    }.bind(this));
+  },
+  appChange: function() {
+    var appId = $('#app').val();
+    this.setState({
+      appId: appId
+    });
   },
   dateChange: function(startDate, endDate) {
     this.setState({
       startDate: startDate,
       endDate: endDate
     });
+    this.updateVisitors();
   },
   componentDidMount: function() {
-    $('#app').select2();
+    $('#app').select2().on('change', function() {
+      this.appChange();
+      this.updateVisitors();
+    }.bind(this));
   },
   render: function() {
     return (
@@ -25,8 +50,8 @@ var Dashboard = React.createClass({
               </div>
               <div className="col-xs-6 col-md-2 pull-right">
                   <select className="select2 form-control" id="app" name="app">
-                      <option value="CMAS">CMAS</option>
-                      <option value="SMIS">SMIS</option>
+                      <option value="1">CMAS</option>
+                      <option value="2">SMIS</option>
                   </select>
               </div>
           </div>
@@ -34,7 +59,7 @@ var Dashboard = React.createClass({
               <div className="col-lg-3 col-xs-6">
                   <div className="small-box bg-aqua">
                       <div className="inner">
-                          <h3>150</h3>
+                          <h3>{(this.state.pageViews / this.state.sessions).toFixed(1)}</h3>
                           <p>Pages / Session</p>
                       </div>
                       <div className="icon">
@@ -46,7 +71,7 @@ var Dashboard = React.createClass({
               <div className="col-lg-3 col-xs-6">
                   <div className="small-box bg-green">
                       <div className="inner">
-                          <h3>53<sup style={{fontSize: '20px'}}>%</sup></h3>
+                          <h3>{this.state.bounceRate}<sup style={{fontSize: '20px'}}>%</sup></h3>
                           <p>Bounce Rate</p>
                       </div>
                       <div className="icon">
@@ -58,7 +83,7 @@ var Dashboard = React.createClass({
               <div className="col-lg-3 col-xs-6">
                   <div className="small-box bg-yellow">
                       <div className="inner">
-                          <h3>44</h3>
+                          <h3>{this.state.uniqueVisitors}</h3>
                           <p>Unique Visitors</p>
                       </div>
                       <div className="icon">
@@ -70,7 +95,7 @@ var Dashboard = React.createClass({
               <div className="col-lg-3 col-xs-6">
                   <div className="small-box bg-red">
                       <div className="inner">
-                          <h3>65</h3>
+                          <h3>{this.state.pageViews}</h3>
                           <p>Page Views</p>
                       </div>
                       <div className="icon">
