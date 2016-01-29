@@ -1,6 +1,6 @@
 var MouseMoveWidget = React.createClass({
   startPlay: function() {
-    var data = this.props.appId === 1 ? data : smisData;
+    var data = this.props.appId === 1 ? window.data : smisData;
     var svg = d3.select('#mousemove-svg');
     var mouse = svg.append('circle')
                    .attr('r', '4')
@@ -8,7 +8,7 @@ var MouseMoveWidget = React.createClass({
     var lines = svg.selectAll('line');
     var linesData = [];
     var inputCount = 0;
-    var frameNo = 0;
+    var frameNo = 1;
     var render = function() {
       var prevPoint = data[frameNo-1];
       var nowPoint = data[frameNo];
