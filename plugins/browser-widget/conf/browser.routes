@@ -1,2 +1,0 @@
-GET     /                            controllers.browser.Application.index
-GET     /assets/*file                controllers.browser.Assets.versioned(path="/public/lib/browser-widget", file: Asset)

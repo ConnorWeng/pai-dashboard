@@ -16,5 +16,4 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 GET     /webjars/*file              controllers.WebJarAssets.at(file)
 
 ->      /webmodules                 webmodules.Routes
-->      /browser                    browser.Routes
 ->      /visitor                    visitor.Routes
