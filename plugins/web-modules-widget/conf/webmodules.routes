@@ -1,3 +1,0 @@
-GET     /                                   controllers.webmodules.Application.index
-GET     /modules/:appId/:startDate/:endDate controllers.webmodules.Application.modules(appId: Int, startDate: Int, endDate: Int)
-GET     /assets/*file                       controllers.webmodules.Assets.versioned(path="/public/lib/web-modules-widget", file: Asset)

@@ -1,8 +1,8 @@
-package controllers.webmodules
+package controllers
 
 import com.google.inject.Inject
-import dao.webmodules.ModuleDAO
-import models.webmodules.WebModule
+import dao.ModuleDAO
+import models.WebModule
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json.Json
 import play.api.mvc.{Action, Controller}
@@ -10,7 +10,7 @@ import play.api.mvc.{Action, Controller}
 /**
   * Created by ConnorWeng on 2015/12/24.
   */
-class Application @Inject()(moduleDAO: ModuleDAO) extends Controller {
+class Module @Inject()(moduleDAO: ModuleDAO) extends Controller {
 
   def index() = Action {
     Ok("web modules")

@@ -1,5 +1,3 @@
-import dao.webmodules.ModuleDAO
-import models.webmodules.WebModule
 import org.junit.runner._
 import org.mockito.Mockito._
 import org.specs2.mock.Mockito
@@ -17,7 +15,7 @@ import scala.concurrent.Future
 /**
   * Created by Connor on 1/5/16.
   */
-class ApplicationSpec @RunWith(classOf[JUnitRunner]) extends Specification with Mockito {
+class WebModuleSpec @RunWith(classOf[JUnitRunner]) extends Specification with Mockito {
   val mockDAO = mock[ModuleDAO]
   val app = new GuiceApplicationBuilder()
     .configure("play.http.router" -> "webmodules.Routes")

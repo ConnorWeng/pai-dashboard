@@ -1,7 +1,7 @@
-package dao.webmodules
+package dao
 
 import com.google.inject.Inject
-import models.webmodules.WebModule
+import models.WebModule
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.driver.JdbcProfile
 

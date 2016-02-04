@@ -1,7 +1,0 @@
-SET FOREIGN_KEY_CHECKS = 0;
-
-TRUNCATE TABLE `module_machine_daily`;
-
-TRUNCATE TABLE `module_daily`;
-
-SET FOREIGN_KEY_CHECKS = 1;
