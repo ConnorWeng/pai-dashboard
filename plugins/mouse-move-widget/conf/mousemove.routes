@@ -1,2 +1,0 @@
-GET     /                            controllers.mousemove.Application.index
-GET     /assets/*file                controllers.mousemove.Assets.versioned(path="/public/lib/mouse-move-widget", file: Asset)
