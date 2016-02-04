@@ -4,9 +4,7 @@ version := "0.1-SNAPSHOT"
 
 lazy val webmodules = (project in file("plugins/web-modules-widget")).enablePlugins(PlayScala, SbtWeb)
 
-lazy val visitor = (project in file("plugins/visitor")).enablePlugins(PlayScala, SbtWeb)
-
-lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb).dependsOn(webmodules, visitor).aggregate(webmodules, visitor)
+lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb).dependsOn(webmodules).aggregate(webmodules)
 
 scalaVersion := "2.11.6"
 

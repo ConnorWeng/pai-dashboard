@@ -1,3 +1,0 @@
-GET     /                                      controllers.visitor.Application.index
-GET     /visitors/:appId/:startDate/:endDate   controllers.visitor.Application.visitors(appId: Int, startDate: Int, endDate: Int)
-GET     /assets/*file                          controllers.visitor.Assets.versioned(path="/public/lib/visitor", file: Asset)

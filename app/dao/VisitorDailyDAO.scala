@@ -1,7 +1,7 @@
-package dao.visitor
+package dao
 
 import com.google.inject.Inject
-import models.visitor.Visitors
+import models.Visitors
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.driver.JdbcProfile
 

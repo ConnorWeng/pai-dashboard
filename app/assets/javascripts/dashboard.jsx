@@ -13,7 +13,7 @@ var Dashboard = React.createClass({
     };
   },
   updateVisitors: function() {
-    $.get('/visitor/visitors/' + this.state.appId + '/' + this.state.startDate.format('YYYYMMDD') + '/' + this.state.endDate.format('YYYYMMDD'), function(visitors) {
+    $.get('/visitors/' + this.state.appId + '/' + this.state.startDate.format('YYYYMMDD') + '/' + this.state.endDate.format('YYYYMMDD'), function(visitors) {
       this.setState({
         pageViews: visitors.pageViews,
         sessions: visitors.sessions,
