@@ -1,6 +1,5 @@
 var MouseMoveWidget = React.createClass({
-  startPlay: function() {
-    var data = this.props.appId === 1 ? window.data : smisData;
+  play: function(data) {
     var svg = d3.select('#mousemove-svg');
     var mouse = svg.append('circle')
                    .attr('r', '4')
@@ -66,6 +65,9 @@ var MouseMoveWidget = React.createClass({
     };
 
     var timer = setInterval(render, 300);
+  },
+  startPlay: function() {
+    $.get('/behavior/events/http%3A%2F%2F83.24.113.34/6aefcb9e-f2a5-5d86-33ea-f7b1359c2437/%2Fcmas%2Fservlet%2Fcom.icbc.cte.cs.servlet.CSReqServlet%23larvapage%3DResultDownload.ResultList', this.play);
   },
   componentDidMount: function() {
     var width = 1680/2.5;

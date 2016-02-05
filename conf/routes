@@ -9,6 +9,7 @@ GET     /:appId/:page/events/click             controllers.Application.eventsCli
 GET     /bases                                 controllers.Application.bases
 GET     /modules/:appId/:startDate/:endDate    controllers.Module.modules(appId: Int, startDate: Int, endDate: Int)
 GET     /visitors/:appId/:startDate/:endDate   controllers.Visitor.visitors(appId: Int, startDate: Int, endDate: Int)
+GET     /behavior/events/:appId/:mid/:page     controllers.Behavior.events(appId: String, mid: String, page: String)
 
 # Doc page
 GET     /doc                        controllers.Application.doc
