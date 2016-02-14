@@ -28,12 +28,14 @@ class ArchiveNumericDAO @Inject()(protected val dbConfigProvider: DatabaseConfig
 
     db.run(query.result).map { rows =>
       var pageViews = 0
+      var uniqueVisitor = 0
       rows.foreach { row =>
-        if (row._2 == "pageview") {
-          pageViews = row._3.getOrElse(0.0).toInt
+        row._2 match {
+          case "pageview" => pageViews = row._3.getOrElse(0.0).toInt
+          case "uniquevisitor" => uniqueVisitor = row._3.getOrElse(0.0).toInt
         }
       }
-      Visitors(appId, pageViews, 0, 0, 0, 0)
+      Visitors(appId, pageViews, 0, 0, uniqueVisitor, 0)
     }
   }
 }
