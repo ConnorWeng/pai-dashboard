@@ -12,7 +12,7 @@ import play.api.mvc.{Action, Controller}
 class Visitor @Inject()(archiveNumericDAO: ArchiveNumericDAO) extends Controller {
 
   def index() = Action {
-    Ok("visitor")
+    Ok(views.html.visitor_overview())
   }
 
   def visitors(appId: Int, startDate: String, endDate: String) = Action.async {
