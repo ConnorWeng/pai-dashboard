@@ -38,7 +38,7 @@ var Dashboard = React.createClass({
                       <div className="icon">
                           <i className="ion ion-pie-graph"></i>
                       </div>
-                      <a href="#" className="small-box-footer">详情 <i className="fa fa-arrow-circle-right"></i></a>
+                      <a href="/visitor/overview" className="small-box-footer">详情 <i className="fa fa-arrow-circle-right"></i></a>
                   </div>
               </div>
               <div className="col-lg-3 col-xs-6">
@@ -50,7 +50,7 @@ var Dashboard = React.createClass({
                       <div className="icon">
                           <i className="ion ion-stats-bars"></i>
                       </div>
-                      <a href="#" className="small-box-footer">详情 <i className="fa fa-arrow-circle-right"></i></a>
+                      <a href="/visitor/overview" className="small-box-footer">详情 <i className="fa fa-arrow-circle-right"></i></a>
                   </div>
               </div>
               <div className="col-lg-3 col-xs-6">
@@ -62,7 +62,7 @@ var Dashboard = React.createClass({
                       <div className="icon">
                           <i className="ion ion-person-add"></i>
                       </div>
-                      <a href="#" className="small-box-footer">详情 <i className="fa fa-arrow-circle-right"></i></a>
+                      <a href="/visitor/overview" className="small-box-footer">详情 <i className="fa fa-arrow-circle-right"></i></a>
                   </div>
               </div>
               <div className="col-lg-3 col-xs-6">
@@ -74,7 +74,7 @@ var Dashboard = React.createClass({
                       <div className="icon">
                           <i className="ion ion-stats-bars"></i>
                       </div>
-                      <a href="#" className="small-box-footer">详情 <i className="fa fa-arrow-circle-right"></i></a>
+                      <a href="/visitor/overview" className="small-box-footer">详情 <i className="fa fa-arrow-circle-right"></i></a>
                   </div>
               </div>
           </div>
