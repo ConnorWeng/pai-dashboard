@@ -3,17 +3,14 @@
 var Dashboard = React.createClass({
   getInitialState: function() {
     return {
-      startDate: moment().subtract(1, 'month'),
-      endDate: moment().subtract(1, 'day'),
-      appId: 1,
       pageViews: 0,
       sessions: 0,
       bounceRate: 0,
       uniqueVisitors: 0
     };
   },
-  updateVisitors: function() {
-    $.get('/visitors/' + this.state.appId + '/' + this.state.startDate.format('YYYY-MM-DD') + '/' + this.state.endDate.format('YYYY-MM-DD'), function(visitors) {
+  update: function(props) {
+    $.get('/visitors/' + props.appId + '/' + props.startDate.format('YYYY-MM-DD') + '/' + props.endDate.format('YYYY-MM-DD'), function(visitors) {
       this.setState({
         pageViews: visitors.pageViews,
         sessions: visitors.sessions,
@@ -22,40 +19,15 @@ var Dashboard = React.createClass({
       });
     }.bind(this));
   },
-  appChange: function() {
-    var appId = $('#app').val();
-    this.setState({
-      appId: appId
-    });
-  },
-  dateChange: function(startDate, endDate) {
-    this.setState({
-      startDate: startDate,
-      endDate: endDate
-    });
-    this.updateVisitors();
-  },
   componentDidMount: function() {
-    $('#app').select2().on('change', function() {
-      this.appChange();
-      this.updateVisitors();
-    }.bind(this));
-    this.updateVisitors();
+    this.update(this.props);
+  },
+  componentWillReceiveProps: function(nextProps) {
+    this.update(nextProps);
   },
   render: function() {
     return (
-      <div className="container-fluid">
-          <div className="row" style={{marginBottom: '10px'}}>
-              <div className="col-xs-6 col-md-4 pull-right" id="date-range-picker">
-                  <DateRangePicker trigger={this.trigger} startDate={this.state.startDate} endDate={this.state.endDate} dateChange={this.dateChange}/>
-              </div>
-              <div className="col-xs-6 col-md-2 pull-right">
-                  <select className="select2 form-control" id="app" name="app">
-                      <option value="1">CMAS</option>
-                      <option value="2">SMIS</option>
-                  </select>
-              </div>
-          </div>
+      <div>
           <div className="row">
               <div className="col-lg-3 col-xs-6">
                   <div className="small-box bg-aqua">
@@ -108,19 +80,21 @@ var Dashboard = React.createClass({
           </div>
           <div className="row">
               <div className="col-xs-12 col-md-8">
-                  <WebModulesWidget appId={this.state.appId} startDate={this.state.startDate} endDate={this.state.endDate} />
-                  <MouseMoveWidget appId={this.state.appId} />
+                  <WebModulesWidget appId={this.props.appId} startDate={this.props.startDate} endDate={this.props.endDate} />
+                  <MouseMoveWidget appId={this.props.appId} />
               </div>
               <div className="col-xs-12 col-md-4">
                   <BrowserWidget />
               </div>
           </div>
-      </div>
+       </div>
     );
   }
 });
 
 ReactDOM.render(
-  <Dashboard />,
-  document.getElementById('dashboard')
+  <PageWithDateRange>
+      <Dashboard />
+  </PageWithDateRange>
+  , document.getElementById('dashboard')
 );
