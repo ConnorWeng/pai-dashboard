@@ -16,7 +16,6 @@ var WebModule = React.createClass({
       <tr style={{backgroundColor: rgba}}>
           <td>{this.props.module.moduleName}</td>
           <td>{this.props.module.moduleView}</td>
-          <td>{Math.floor(this.props.module.duration / 1000).toString().toHHMMSS()}</td>
           <td>
               <ul className="no-list-style" style={{paddingLeft: 0}}>
               {
@@ -64,8 +63,7 @@ var WebModulesWidget = React.createClass({
                           <tr>
                               <th>模块</th>
                               <th>访问次数</th>
-                              <th>总用时</th>
-                              <th>人员</th>
+                              <th>访问人员</th>
                           </tr>
                       </thead>
                       <tbody>
