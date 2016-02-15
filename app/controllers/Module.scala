@@ -25,7 +25,7 @@ class Module @Inject()(moduleDAO: ModuleDAO) extends Controller {
         val duration = webModules./:[Long](0)(_ + _.duration)
         WebModule(0, m.appId, m.appName, moduleId, m.moduleName, machineNames, moduleView, duration, 0)
       }
-      Ok(Json.toJson(result.toList.sortWith(_.duration > _.duration)))
+      Ok(Json.toJson(result.toList.sortWith(_.moduleView > _.moduleView)))
     }
   }
 }
