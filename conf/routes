@@ -7,7 +7,7 @@ GET     /admin/newapp                                       controllers.Admin.ne
 GET     /                                                   controllers.Application.index(startTime: String ?= "", endTime: String ?= "")
 GET     /:appId/:page/events/click                          controllers.Application.eventsClick(appId: String, page: String)
 GET     /bases                                              controllers.Application.bases
-GET     /modules/:appId/:startDate/:endDate                 controllers.Module.modules(appId: Int, startDate: Int, endDate: Int)
+GET     /modules/:appId/:startDate~:endDate                 controllers.Module.modules(appId: Int, startDate: String, endDate: String)
 GET     /visitor/overview                                   controllers.Visitor.index
 GET     /visitors/:appId/:startDate/:endDate                controllers.Visitor.visitors(appId: Int, startDate: String, endDate: String)
 GET     /visitor/overview/daily/:appId/:startDate~:endDate  controllers.Visitor.visitorOverviewDaily(appId: Int, startDate: String, endDate: String)

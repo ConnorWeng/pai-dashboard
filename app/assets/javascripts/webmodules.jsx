@@ -37,7 +37,7 @@ var WebModulesWidget = React.createClass({
     };
   },
   updateState: function(props) {
-    $.get('/modules/' + props.appId + '/' + props.startDate.format('YYYYMMDD') + '/' + props.endDate.format('YYYYMMDD'), function(modules) {
+    $.get('/modules/' + props.appId + '/' + props.startDate.format('YYYY-MM-DD') + '~' + props.endDate.format('YYYY-MM-DD'), function(modules) {
       this.setState({modules: modules});
     }.bind(this));
   },
