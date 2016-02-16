@@ -14,7 +14,7 @@ trait Tables {
   import slick.jdbc.{GetResult => GR}
 
   /** DDL for all tables. Call .create to execute. */
-  lazy val schema: profile.SchemaDescription = Array(App.schema, ArchiveNumeric.schema, Base.schema, Day.schema, Department.schema, Machine.schema, Module.schema, ModuleDaily.schema, ModuleMachineDaily.schema, Month.schema, Page.schema, PageEvent.schema, PlayEvolutions.schema, VisitorDaily.schema, Week.schema).reduceLeft(_ ++ _)
+  lazy val schema: profile.SchemaDescription = Array(App.schema, ArchiveBlob.schema, ArchiveNumeric.schema, Base.schema, Day.schema, Department.schema, Machine.schema, Module.schema, ModuleDaily.schema, ModuleMachineDaily.schema, Month.schema, Page.schema, PageEvent.schema, PlayEvolutions.schema, VisitorDaily.schema, Week.schema).reduceLeft(_ ++ _)
   @deprecated("Use .schema instead of .ddl", "3.0")
   def ddl = schema
 
@@ -49,6 +49,47 @@ trait Tables {
   }
   /** Collection-like TableQuery object for table App */
   lazy val App = new TableQuery(tag => new App(tag))
+
+  /** Entity class storing rows of table ArchiveBlob
+   *  @param archiveId Database column archive_id SqlType(INT UNSIGNED), AutoInc, PrimaryKey
+   *  @param name Database column name SqlType(VARCHAR), Length(255,true)
+   *  @param appId Database column app_id SqlType(INT UNSIGNED)
+   *  @param date1 Database column date1 SqlType(DATE), Default(None)
+   *  @param date2 Database column date2 SqlType(DATE), Default(None)
+   *  @param period Database column period SqlType(TINYINT UNSIGNED), Default(None)
+   *  @param tsArchived Database column ts_archived SqlType(DATETIME), Default(None)
+   *  @param value Database column value SqlType(TEXT), Default(None) */
+  case class ArchiveBlobRow(archiveId: Int, name: String, appId: Int, date1: Option[java.sql.Date] = None, date2: Option[java.sql.Date] = None, period: Option[Byte] = None, tsArchived: Option[java.sql.Timestamp] = None, value: Option[String] = None)
+  /** GetResult implicit for fetching ArchiveBlobRow objects using plain SQL queries */
+  implicit def GetResultArchiveBlobRow(implicit e0: GR[Int], e1: GR[String], e2: GR[Option[java.sql.Date]], e3: GR[Option[Byte]], e4: GR[Option[java.sql.Timestamp]], e5: GR[Option[String]]): GR[ArchiveBlobRow] = GR{
+    prs => import prs._
+    ArchiveBlobRow.tupled((<<[Int], <<[String], <<[Int], <<?[java.sql.Date], <<?[java.sql.Date], <<?[Byte], <<?[java.sql.Timestamp], <<?[String]))
+  }
+  /** Table description of table archive_blob. Objects of this class serve as prototypes for rows in queries. */
+  class ArchiveBlob(_tableTag: Tag) extends Table[ArchiveBlobRow](_tableTag, "archive_blob") {
+    def * = (archiveId, name, appId, date1, date2, period, tsArchived, value) <> (ArchiveBlobRow.tupled, ArchiveBlobRow.unapply)
+    /** Maps whole row to an option. Useful for outer joins. */
+    def ? = (Rep.Some(archiveId), Rep.Some(name), Rep.Some(appId), date1, date2, period, tsArchived, value).shaped.<>({r=>import r._; _1.map(_=> ArchiveBlobRow.tupled((_1.get, _2.get, _3.get, _4, _5, _6, _7, _8)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+
+    /** Database column archive_id SqlType(INT UNSIGNED), AutoInc, PrimaryKey */
+    val archiveId: Rep[Int] = column[Int]("archive_id", O.AutoInc, O.PrimaryKey)
+    /** Database column name SqlType(VARCHAR), Length(255,true) */
+    val name: Rep[String] = column[String]("name", O.Length(255,varying=true))
+    /** Database column app_id SqlType(INT UNSIGNED) */
+    val appId: Rep[Int] = column[Int]("app_id")
+    /** Database column date1 SqlType(DATE), Default(None) */
+    val date1: Rep[Option[java.sql.Date]] = column[Option[java.sql.Date]]("date1", O.Default(None))
+    /** Database column date2 SqlType(DATE), Default(None) */
+    val date2: Rep[Option[java.sql.Date]] = column[Option[java.sql.Date]]("date2", O.Default(None))
+    /** Database column period SqlType(TINYINT UNSIGNED), Default(None) */
+    val period: Rep[Option[Byte]] = column[Option[Byte]]("period", O.Default(None))
+    /** Database column ts_archived SqlType(DATETIME), Default(None) */
+    val tsArchived: Rep[Option[java.sql.Timestamp]] = column[Option[java.sql.Timestamp]]("ts_archived", O.Default(None))
+    /** Database column value SqlType(TEXT), Default(None) */
+    val value: Rep[Option[String]] = column[Option[String]]("value", O.Default(None))
+  }
+  /** Collection-like TableQuery object for table ArchiveBlob */
+  lazy val ArchiveBlob = new TableQuery(tag => new ArchiveBlob(tag))
 
   /** Entity class storing rows of table ArchiveNumeric
    *  @param archiveId Database column archive_id SqlType(INT UNSIGNED), AutoInc, PrimaryKey
