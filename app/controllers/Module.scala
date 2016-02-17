@@ -1,7 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
-import dao.{ArchiveBlobDAO, ModuleDAO}
+import dao.ArchiveBlobDAO
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json.{JsObject, Json}
 import play.api.mvc.{Action, Controller}
@@ -9,7 +9,7 @@ import play.api.mvc.{Action, Controller}
 /**
   * Created by ConnorWeng on 2015/12/24.
   */
-class Module @Inject()(moduleDAO: ModuleDAO, archiveBlobDAO: ArchiveBlobDAO) extends Controller {
+class Module @Inject()(archiveBlobDAO: ArchiveBlobDAO) extends Controller {
 
   def index() = Action {
     Ok("web modules")

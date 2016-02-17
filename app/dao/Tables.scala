@@ -14,7 +14,7 @@ trait Tables {
   import slick.jdbc.{GetResult => GR}
 
   /** DDL for all tables. Call .create to execute. */
-  lazy val schema: profile.SchemaDescription = Array(App.schema, ArchiveBlob.schema, ArchiveNumeric.schema, Base.schema, Day.schema, Department.schema, Machine.schema, Module.schema, ModuleDaily.schema, ModuleMachineDaily.schema, Month.schema, Page.schema, PageEvent.schema, PlayEvolutions.schema, VisitorDaily.schema, Week.schema).reduceLeft(_ ++ _)
+  lazy val schema: profile.SchemaDescription = Array(App.schema, ArchiveBlob.schema, ArchiveNumeric.schema, Base.schema, Day.schema, Department.schema, Machine.schema, Module.schema, Month.schema, Page.schema, PageEvent.schema, PlayEvolutions.schema, Week.schema).reduceLeft(_ ++ _)
   @deprecated("Use .schema instead of .ddl", "3.0")
   def ddl = schema
 
@@ -44,8 +44,8 @@ trait Tables {
     /** Database column department_id SqlType(INT UNSIGNED) */
     val departmentId: Rep[Int] = column[Int]("department_id")
 
-    /** Foreign key referencing Department (database name app_department_fk) */
-    lazy val departmentFk = foreignKey("app_department_fk", departmentId, Department)(r => r.departmentId, onUpdate=ForeignKeyAction.NoAction, onDelete=ForeignKeyAction.NoAction)
+    /** Index over (departmentId) (database name department_id_idx) */
+    val index1 = index("department_id_idx", departmentId)
   }
   /** Collection-like TableQuery object for table App */
   lazy val App = new TableQuery(tag => new App(tag))
@@ -190,10 +190,10 @@ trait Tables {
     /** Database column month_id SqlType(INT UNSIGNED) */
     val monthId: Rep[Int] = column[Int]("month_id")
 
-    /** Foreign key referencing Month (database name day_month_fk) */
-    lazy val monthFk = foreignKey("day_month_fk", monthId, Month)(r => r.monthId, onUpdate=ForeignKeyAction.NoAction, onDelete=ForeignKeyAction.NoAction)
-    /** Foreign key referencing Week (database name day_week_fk) */
-    lazy val weekFk = foreignKey("day_week_fk", weekId, Week)(r => r.weekId, onUpdate=ForeignKeyAction.NoAction, onDelete=ForeignKeyAction.NoAction)
+    /** Index over (monthId) (database name month_id_idx) */
+    val index1 = index("month_id_idx", monthId)
+    /** Index over (weekId) (database name week_id_idx) */
+    val index2 = index("week_id_idx", weekId)
   }
   /** Collection-like TableQuery object for table Day */
   lazy val Day = new TableQuery(tag => new Day(tag))
@@ -221,8 +221,8 @@ trait Tables {
     /** Database column base_id SqlType(INT UNSIGNED) */
     val baseId: Rep[Int] = column[Int]("base_id")
 
-    /** Foreign key referencing Base (database name department_base_fk) */
-    lazy val baseFk = foreignKey("department_base_fk", baseId, Base)(r => r.baseId, onUpdate=ForeignKeyAction.NoAction, onDelete=ForeignKeyAction.NoAction)
+    /** Index over (baseId) (database name base_id_idx) */
+    val index1 = index("base_id_idx", baseId)
   }
   /** Collection-like TableQuery object for table Department */
   lazy val Department = new TableQuery(tag => new Department(tag))
@@ -296,87 +296,11 @@ trait Tables {
     /** Database column app_id SqlType(INT UNSIGNED) */
     val appId: Rep[Int] = column[Int]("app_id")
 
-    /** Foreign key referencing App (database name module_app_fk) */
-    lazy val appFk = foreignKey("module_app_fk", appId, App)(r => r.appId, onUpdate=ForeignKeyAction.NoAction, onDelete=ForeignKeyAction.NoAction)
+    /** Index over (appId) (database name app_id_idx) */
+    val index1 = index("app_id_idx", appId)
   }
   /** Collection-like TableQuery object for table Module */
   lazy val Module = new TableQuery(tag => new Module(tag))
-
-  /** Entity class storing rows of table ModuleDaily
-   *  @param moduleDailyId Database column module_daily_id SqlType(INT UNSIGNED), AutoInc, PrimaryKey
-   *  @param appId Database column app_id SqlType(INT UNSIGNED)
-   *  @param appName Database column app_name SqlType(VARCHAR), Length(45,true)
-   *  @param moduleId Database column module_id SqlType(INT UNSIGNED)
-   *  @param moduleName Database column module_name SqlType(VARCHAR), Length(45,true)
-   *  @param moduleView Database column module_view SqlType(INT UNSIGNED)
-   *  @param duration Database column duration SqlType(BIGINT UNSIGNED)
-   *  @param dayId Database column day_id SqlType(INT UNSIGNED) */
-  case class ModuleDailyRow(moduleDailyId: Int, appId: Int, appName: String, moduleId: Int, moduleName: String, moduleView: Int, duration: Long, dayId: Int)
-  /** GetResult implicit for fetching ModuleDailyRow objects using plain SQL queries */
-  implicit def GetResultModuleDailyRow(implicit e0: GR[Int], e1: GR[String], e2: GR[Long]): GR[ModuleDailyRow] = GR{
-    prs => import prs._
-    ModuleDailyRow.tupled((<<[Int], <<[Int], <<[String], <<[Int], <<[String], <<[Int], <<[Long], <<[Int]))
-  }
-  /** Table description of table module_daily. Objects of this class serve as prototypes for rows in queries. */
-  class ModuleDaily(_tableTag: Tag) extends Table[ModuleDailyRow](_tableTag, "module_daily") {
-    def * = (moduleDailyId, appId, appName, moduleId, moduleName, moduleView, duration, dayId) <> (ModuleDailyRow.tupled, ModuleDailyRow.unapply)
-    /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (Rep.Some(moduleDailyId), Rep.Some(appId), Rep.Some(appName), Rep.Some(moduleId), Rep.Some(moduleName), Rep.Some(moduleView), Rep.Some(duration), Rep.Some(dayId)).shaped.<>({r=>import r._; _1.map(_=> ModuleDailyRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get, _7.get, _8.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
-
-    /** Database column module_daily_id SqlType(INT UNSIGNED), AutoInc, PrimaryKey */
-    val moduleDailyId: Rep[Int] = column[Int]("module_daily_id", O.AutoInc, O.PrimaryKey)
-    /** Database column app_id SqlType(INT UNSIGNED) */
-    val appId: Rep[Int] = column[Int]("app_id")
-    /** Database column app_name SqlType(VARCHAR), Length(45,true) */
-    val appName: Rep[String] = column[String]("app_name", O.Length(45,varying=true))
-    /** Database column module_id SqlType(INT UNSIGNED) */
-    val moduleId: Rep[Int] = column[Int]("module_id")
-    /** Database column module_name SqlType(VARCHAR), Length(45,true) */
-    val moduleName: Rep[String] = column[String]("module_name", O.Length(45,varying=true))
-    /** Database column module_view SqlType(INT UNSIGNED) */
-    val moduleView: Rep[Int] = column[Int]("module_view")
-    /** Database column duration SqlType(BIGINT UNSIGNED) */
-    val duration: Rep[Long] = column[Long]("duration")
-    /** Database column day_id SqlType(INT UNSIGNED) */
-    val dayId: Rep[Int] = column[Int]("day_id")
-
-    /** Index over (dayId) (database name module_daily_day_idx) */
-    val index1 = index("module_daily_day_idx", dayId)
-  }
-  /** Collection-like TableQuery object for table ModuleDaily */
-  lazy val ModuleDaily = new TableQuery(tag => new ModuleDaily(tag))
-
-  /** Entity class storing rows of table ModuleMachineDaily
-   *  @param moduleDailyId Database column module_daily_id SqlType(INT UNSIGNED)
-   *  @param machineId Database column machine_id SqlType(INT UNSIGNED)
-   *  @param machineName Database column machine_name SqlType(VARCHAR), Length(45,true), Default(None) */
-  case class ModuleMachineDailyRow(moduleDailyId: Int, machineId: Int, machineName: Option[String] = None)
-  /** GetResult implicit for fetching ModuleMachineDailyRow objects using plain SQL queries */
-  implicit def GetResultModuleMachineDailyRow(implicit e0: GR[Int], e1: GR[Option[String]]): GR[ModuleMachineDailyRow] = GR{
-    prs => import prs._
-    ModuleMachineDailyRow.tupled((<<[Int], <<[Int], <<?[String]))
-  }
-  /** Table description of table module_machine_daily. Objects of this class serve as prototypes for rows in queries. */
-  class ModuleMachineDaily(_tableTag: Tag) extends Table[ModuleMachineDailyRow](_tableTag, "module_machine_daily") {
-    def * = (moduleDailyId, machineId, machineName) <> (ModuleMachineDailyRow.tupled, ModuleMachineDailyRow.unapply)
-    /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (Rep.Some(moduleDailyId), Rep.Some(machineId), machineName).shaped.<>({r=>import r._; _1.map(_=> ModuleMachineDailyRow.tupled((_1.get, _2.get, _3)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
-
-    /** Database column module_daily_id SqlType(INT UNSIGNED) */
-    val moduleDailyId: Rep[Int] = column[Int]("module_daily_id")
-    /** Database column machine_id SqlType(INT UNSIGNED) */
-    val machineId: Rep[Int] = column[Int]("machine_id")
-    /** Database column machine_name SqlType(VARCHAR), Length(45,true), Default(None) */
-    val machineName: Rep[Option[String]] = column[Option[String]]("machine_name", O.Length(45,varying=true), O.Default(None))
-
-    /** Primary key of ModuleMachineDaily (database name module_machine_daily_PK) */
-    val pk = primaryKey("module_machine_daily_PK", (moduleDailyId, machineId))
-
-    /** Foreign key referencing ModuleDaily (database name module_machine_daily_module_daily_fk) */
-    lazy val moduleDailyFk = foreignKey("module_machine_daily_module_daily_fk", moduleDailyId, ModuleDaily)(r => r.moduleDailyId, onUpdate=ForeignKeyAction.NoAction, onDelete=ForeignKeyAction.NoAction)
-  }
-  /** Collection-like TableQuery object for table ModuleMachineDaily */
-  lazy val ModuleMachineDaily = new TableQuery(tag => new ModuleMachineDaily(tag))
 
   /** Entity class storing rows of table Month
    *  @param monthId Database column month_id SqlType(INT UNSIGNED), PrimaryKey
@@ -433,11 +357,10 @@ trait Tables {
     /** Database column module_id SqlType(INT UNSIGNED), Default(None) */
     val moduleId: Rep[Option[Int]] = column[Option[Int]]("module_id", O.Default(None))
 
-    /** Foreign key referencing App (database name page_app_fk) */
-    lazy val appFk = foreignKey("page_app_fk", appId, App)(r => r.appId, onUpdate=ForeignKeyAction.NoAction, onDelete=ForeignKeyAction.NoAction)
-
+    /** Index over (appId) (database name page_app_idx) */
+    val index1 = index("page_app_idx", appId)
     /** Index over (moduleId) (database name page_module_idx) */
-    val index1 = index("page_module_idx", moduleId)
+    val index2 = index("page_module_idx", moduleId)
   }
   /** Collection-like TableQuery object for table Page */
   lazy val Page = new TableQuery(tag => new Page(tag))
@@ -480,13 +403,12 @@ trait Tables {
     /** Database column day_id SqlType(INT UNSIGNED) */
     val dayId: Rep[Int] = column[Int]("day_id")
 
-    /** Foreign key referencing Machine (database name event_machine_fk) */
-    lazy val machineFk = foreignKey("event_machine_fk", machineId, Machine)(r => r.machineId, onUpdate=ForeignKeyAction.NoAction, onDelete=ForeignKeyAction.NoAction)
-    /** Foreign key referencing Page (database name event_page_fk) */
-    lazy val pageFk = foreignKey("event_page_fk", pageId, Page)(r => r.pageId, onUpdate=ForeignKeyAction.NoAction, onDelete=ForeignKeyAction.NoAction)
-
     /** Index over (dayId) (database name day_id_idx) */
     val index1 = index("day_id_idx", dayId)
+    /** Index over (pageId) (database name event_page_idx) */
+    val index2 = index("event_page_idx", pageId)
+    /** Index over (machineId) (database name machine_id_idx) */
+    val index3 = index("machine_id_idx", machineId)
   }
   /** Collection-like TableQuery object for table PageEvent */
   lazy val PageEvent = new TableQuery(tag => new PageEvent(tag))
@@ -528,50 +450,6 @@ trait Tables {
   }
   /** Collection-like TableQuery object for table PlayEvolutions */
   lazy val PlayEvolutions = new TableQuery(tag => new PlayEvolutions(tag))
-
-  /** Entity class storing rows of table VisitorDaily
-   *  @param visitorDailyId Database column visitor_daily_id SqlType(INT UNSIGNED), AutoInc, PrimaryKey
-   *  @param appId Database column app_id SqlType(INT UNSIGNED)
-   *  @param appName Database column app_name SqlType(VARCHAR), Length(45,true)
-   *  @param pageViews Database column page_views SqlType(INT UNSIGNED)
-   *  @param sessions Database column sessions SqlType(INT UNSIGNED)
-   *  @param bounceRate Database column bounce_rate SqlType(INT UNSIGNED)
-   *  @param uniqueVisitors Database column unique_visitors SqlType(INT UNSIGNED)
-   *  @param dayId Database column day_id SqlType(INT UNSIGNED) */
-  case class VisitorDailyRow(visitorDailyId: Int, appId: Int, appName: String, pageViews: Int, sessions: Int, bounceRate: Int, uniqueVisitors: Int, dayId: Int)
-  /** GetResult implicit for fetching VisitorDailyRow objects using plain SQL queries */
-  implicit def GetResultVisitorDailyRow(implicit e0: GR[Int], e1: GR[String]): GR[VisitorDailyRow] = GR{
-    prs => import prs._
-    VisitorDailyRow.tupled((<<[Int], <<[Int], <<[String], <<[Int], <<[Int], <<[Int], <<[Int], <<[Int]))
-  }
-  /** Table description of table visitor_daily. Objects of this class serve as prototypes for rows in queries. */
-  class VisitorDaily(_tableTag: Tag) extends Table[VisitorDailyRow](_tableTag, "visitor_daily") {
-    def * = (visitorDailyId, appId, appName, pageViews, sessions, bounceRate, uniqueVisitors, dayId) <> (VisitorDailyRow.tupled, VisitorDailyRow.unapply)
-    /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (Rep.Some(visitorDailyId), Rep.Some(appId), Rep.Some(appName), Rep.Some(pageViews), Rep.Some(sessions), Rep.Some(bounceRate), Rep.Some(uniqueVisitors), Rep.Some(dayId)).shaped.<>({r=>import r._; _1.map(_=> VisitorDailyRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get, _7.get, _8.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
-
-    /** Database column visitor_daily_id SqlType(INT UNSIGNED), AutoInc, PrimaryKey */
-    val visitorDailyId: Rep[Int] = column[Int]("visitor_daily_id", O.AutoInc, O.PrimaryKey)
-    /** Database column app_id SqlType(INT UNSIGNED) */
-    val appId: Rep[Int] = column[Int]("app_id")
-    /** Database column app_name SqlType(VARCHAR), Length(45,true) */
-    val appName: Rep[String] = column[String]("app_name", O.Length(45,varying=true))
-    /** Database column page_views SqlType(INT UNSIGNED) */
-    val pageViews: Rep[Int] = column[Int]("page_views")
-    /** Database column sessions SqlType(INT UNSIGNED) */
-    val sessions: Rep[Int] = column[Int]("sessions")
-    /** Database column bounce_rate SqlType(INT UNSIGNED) */
-    val bounceRate: Rep[Int] = column[Int]("bounce_rate")
-    /** Database column unique_visitors SqlType(INT UNSIGNED) */
-    val uniqueVisitors: Rep[Int] = column[Int]("unique_visitors")
-    /** Database column day_id SqlType(INT UNSIGNED) */
-    val dayId: Rep[Int] = column[Int]("day_id")
-
-    /** Index over (dayId) (database name visitor_daily_day_idx) */
-    val index1 = index("visitor_daily_day_idx", dayId)
-  }
-  /** Collection-like TableQuery object for table VisitorDaily */
-  lazy val VisitorDaily = new TableQuery(tag => new VisitorDaily(tag))
 
   /** Entity class storing rows of table Week
    *  @param weekId Database column week_id SqlType(INT UNSIGNED), PrimaryKey

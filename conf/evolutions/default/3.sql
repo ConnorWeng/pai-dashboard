@@ -1,19 +1,18 @@
 # --- !Ups
 
-CREATE TABLE IF NOT EXISTS `visitor_daily` (
-  `visitor_daily_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `archive_numeric` (
+  `archive_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
   `app_id` INT UNSIGNED NOT NULL,
-  `app_name` VARCHAR(45) NOT NULL,
-  `page_views` INT UNSIGNED NOT NULL,
-  `sessions` INT UNSIGNED NOT NULL,
-  `bounce_rate` INT UNSIGNED NOT NULL,
-  `unique_visitors` INT UNSIGNED NOT NULL,
-  `day_id` INT(8) UNSIGNED NOT NULL,
-  PRIMARY KEY (`visitor_daily_id`),
-  INDEX `visitor_daily_day_idx` (`day_id` ASC))
+  `date1` DATE,
+  `date2` DATE,
+  `period` TINYINT(3) UNSIGNED,
+  `ts_archived` DATETIME,
+  `value` DOUBLE,
+  PRIMARY KEY (`archive_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 # --- !Downs
 
-DROP TABLE IF EXISTS `visitor_daily` ;
+DROP TABLE IF EXISTS `archive_numeric` ;

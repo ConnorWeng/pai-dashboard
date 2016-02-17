@@ -12,12 +12,7 @@ CREATE TABLE IF NOT EXISTS `department` (
   `department_name` VARCHAR(45) NOT NULL,
   `base_id` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`department_id`),
-  INDEX `base_id_idx` (`base_id` ASC),
-  CONSTRAINT `department_base_fk`
-    FOREIGN KEY (`base_id`)
-    REFERENCES `base` (`base_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  INDEX `base_id_idx` (`base_id` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -27,12 +22,7 @@ CREATE TABLE IF NOT EXISTS `app` (
   `app_url` VARCHAR(255) NOT NULL,
   `department_id` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`app_id`),
-  INDEX `department_id_idx` (`department_id` ASC),
-  CONSTRAINT `app_department_fk`
-    FOREIGN KEY (`department_id`)
-    REFERENCES `department` (`department_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  INDEX `department_id_idx` (`department_id` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -63,17 +53,7 @@ CREATE TABLE IF NOT EXISTS `day` (
   `month_id` INT(6) UNSIGNED NOT NULL,
   PRIMARY KEY (`day_id`),
   INDEX `month_id_idx` (`month_id` ASC),
-  INDEX `week_id_idx` (`week_id` ASC),
-  CONSTRAINT `day_week_fk`
-    FOREIGN KEY (`week_id`)
-    REFERENCES `week` (`week_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `day_month_fk`
-    FOREIGN KEY (`month_id`)
-    REFERENCES `month` (`month_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  INDEX `week_id_idx` (`week_id` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -87,17 +67,7 @@ CREATE TABLE IF NOT EXISTS `machine` (
   `last_day_id` INT(8) UNSIGNED NOT NULL,
   PRIMARY KEY (`machine_id`),
   INDEX `first_day_id_idx` (`first_day_id` ASC),
-  INDEX `last_day_id_idx` (`last_day_id` ASC),
-  CONSTRAINT `machine_first_day_fk`
-    FOREIGN KEY (`first_day_id`)
-    REFERENCES `day` (`day_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `machine_last_day_fk`
-    FOREIGN KEY (`last_day_id`)
-    REFERENCES `day` (`day_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  INDEX `last_day_id_idx` (`last_day_id` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -107,12 +77,7 @@ CREATE TABLE IF NOT EXISTS `module` (
   `module_url` VARCHAR(2038) NOT NULL,
   `app_id` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`module_id`),
-  INDEX `app_id_idx` (`app_id` ASC),
-  CONSTRAINT `module_app_fk`
-    FOREIGN KEY (`app_id`)
-    REFERENCES `app` (`app_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  INDEX `app_id_idx` (`app_id` ASC))
 ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `page` (
@@ -122,17 +87,7 @@ CREATE TABLE IF NOT EXISTS `page` (
   `module_id` INT UNSIGNED NULL,
   PRIMARY KEY (`page_id`),
   INDEX `page_app_idx` (`app_id` ASC),
-  INDEX `page_module_idx` (`module_id` ASC),
-  CONSTRAINT `page_app_fk`
-    FOREIGN KEY (`app_id`)
-    REFERENCES `app` (`app_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `page_module_fk`
-    FOREIGN KEY (`module_id`)
-    REFERENCES `module` (`module_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  INDEX `page_module_idx` (`module_id` ASC))
 ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `page_event` (
@@ -147,22 +102,7 @@ CREATE TABLE IF NOT EXISTS `page_event` (
   PRIMARY KEY (`page_event_id`),
   INDEX `machine_id_idx` (`machine_id` ASC),
   INDEX `day_id_idx` (`day_id` ASC),
-  INDEX `event_page_idx` (`page_id` ASC),
-  CONSTRAINT `event_machine_fk`
-    FOREIGN KEY (`machine_id`)
-    REFERENCES `machine` (`machine_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `event_day_fk`
-    FOREIGN KEY (`day_id`)
-    REFERENCES `day` (`day_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `event_page_fk`
-    FOREIGN KEY (`page_id`)
-    REFERENCES `page` (`page_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  INDEX `event_page_idx` (`page_id` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
