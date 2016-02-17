@@ -4,7 +4,7 @@ var PageWithDateRange = React.createClass({
   },
   getInitialState: function() {
     return {
-      startDate: moment(),
+      startDate: this.props.dateRange === "month" ? moment().subtract(1, 'month') : moment(),
       endDate: moment(),
       appId: 1
     };

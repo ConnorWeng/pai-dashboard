@@ -79,7 +79,7 @@ var VisitorOverview = React.createClass({
 });
 
 ReactDOM.render(
-  <PageWithDateRange>
+  <PageWithDateRange dateRange="month">
       <VisitorOverview />
   </PageWithDateRange>
   , document.getElementById('visitor-overview')
