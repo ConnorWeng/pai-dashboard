@@ -1,51 +1,59 @@
 var BrowserWidget = React.createClass({
   componentDidMount: function() {
-    var browserPie = echarts.init($('.browser-pie')[0]);
-    var option = {
-      tooltip: {
-        trigger: 'item',
-        formatter: "{a} <br/>{b}: {c} ({d}%)"
-      },
-      legend: {
-        orient: 'vertical',
-        x: 'right',
-        data:['IE6','IE8','IE11','Chrome','FireFox']
-      },
-      series: [
-        {
-          name:'访问来源',
-          type:'pie',
-          radius: ['50%', '70%'],
-          avoidLabelOverlap: false,
-          label: {
-            normal: {
-              show: false,
-              position: 'center'
-            },
-            emphasis: {
-              show: true,
-              textStyle: {
-                fontSize: '30',
-                fontWeight: 'bold'
+    this.update(this.props);
+  },
+  componentWillReceiveProps: function(nextProps) {
+    this.update(nextProps);
+  },
+  update: function(props) {
+    $.get('/browsers/' + props.appId + '/' + props.startDate.format('YYYY-MM-DD') + '~' + props.endDate.format('YYYY-MM-DD'), function(result) {
+      var browserPie = echarts.init($('.browser-pie')[0]);
+      var option = {
+        tooltip: {
+          trigger: 'item',
+          formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+          orient: 'vertical',
+          x: 'right',
+          data: result.browsers
+        },
+        series: [
+          {
+            name:'访问来源',
+            type:'pie',
+            radius: ['50%', '70%'],
+            avoidLabelOverlap: false,
+            label: {
+              normal: {
+                show: false,
+                position: 'center'
+              },
+              emphasis: {
+                show: true,
+                textStyle: {
+                  fontSize: '30',
+                  fontWeight: 'bold'
+                }
               }
-            }
-          },
-          labelLine: {
-            normal: {
-              show: false
-            }
-          },
-          data:[
-            {value:0, name:'IE6'},
-            {value:3, name:'IE8'},
-            {value:3, name:'IE11'},
-            {value:1, name:'Chrome'},
-            {value:0, name:'FireFox'}
-          ]
-        }
-      ]
-    };
-    browserPie.setOption(option);
+            },
+            labelLine: {
+              normal: {
+                show: false
+              }
+            },
+            data: (function() {
+              var data = [];
+              for (var i = 0; i < result.browsers.length; i++) {
+                data.push({value: result.dataset[i], name: result.browsers[i]})
+              }
+              return data;
+            })()
+          }
+        ]
+      };
+      browserPie.setOption(option);
+    });
   },
   render: function() {
     return (

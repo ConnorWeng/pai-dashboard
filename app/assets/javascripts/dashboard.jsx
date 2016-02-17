@@ -84,7 +84,7 @@ var Dashboard = React.createClass({
                   <MouseMoveWidget appId={this.props.appId} />
               </div>
               <div className="col-xs-12 col-md-4">
-                  <BrowserWidget />
+                  <BrowserWidget appId={this.props.appId} startDate={this.props.startDate} endDate={this.props.endDate} />
               </div>
           </div>
        </div>

@@ -7,6 +7,7 @@ import java.util.Calendar
 import com.google.inject.Inject
 import models.Visitors
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import slick.driver.JdbcProfile
 
 import scala.collection.mutable
@@ -22,14 +23,13 @@ class ArchiveNumericDAO @Inject()(protected val dbConfigProvider: DatabaseConfig
 
     val query = Tables.ArchiveNumeric
       .filter(_.appId === appId)
+      .filter(t => t.name === "pageview" || t.name === "uniquevisitor" || t.name === "session")
       .filter(_.date1 >= Date.valueOf(startDate))
       .filter(_.date2 <= Date.valueOf(endDate))
       .groupBy(r => (r.appId, r.name))
       .map { case (key, values) =>
         (key._1, key._2, values.map(_.value).sum)
       }
-
-    import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
     db.run(query.result).map { rows =>
       var pageViews = 0
@@ -49,6 +49,7 @@ class ArchiveNumericDAO @Inject()(protected val dbConfigProvider: DatabaseConfig
   def visitorOverviewDaily(appId: Int, startDate: String, endDate: String) = {
     val query = Tables.ArchiveNumeric
       .filter(_.appId === appId)
+      .filter(t => t.name === "pageview" || t.name === "uniquevisitor" || t.name === "session")
       .filter(_.period === 1.toByte)
       .filter(_.date1 >= Date.valueOf(startDate))
       .filter(_.date2 <= Date.valueOf(endDate))
@@ -85,5 +86,23 @@ class ArchiveNumericDAO @Inject()(protected val dbConfigProvider: DatabaseConfig
       startCalendar.add(Calendar.DAY_OF_YEAR, 1)
     }
     dates.toList
+  }
+
+  def allBrowsers(appId: Int, startDate: String, endDate: String) = {
+    val query = Tables.ArchiveNumeric
+      .filter(_.appId === appId)
+      .filter(_.period === 1.toByte)
+      .filter(t => t.name === "IE6" || t.name === "IE7" || t.name === "IE8" || t.name === "IE9" || t.name === "IE11" || t.name === "Chrome")
+      .filter(_.date1 >= Date.valueOf(startDate))
+      .filter(_.date2 <= Date.valueOf(endDate))
+
+    db.run(query.result).map { rows =>
+      rows.map { row =>
+        (row.name, row.value.get.toInt)
+      }.groupBy(_._1)
+      .map { t =>
+        (t._1, t._2.map(_._2).sum)
+      }
+    }
   }
 }
