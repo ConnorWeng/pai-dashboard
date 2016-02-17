@@ -67,7 +67,7 @@ var MouseMoveWidget = React.createClass({
     var timer = setInterval(render, 300);
   },
   startPlay: function() {
-    $.get('/behavior/events/http%3A%2F%2F83.24.113.34/6aefcb9e-f2a5-5d86-33ea-f7b1359c2437/%2Fcmas%2Fservlet%2Fcom.icbc.cte.cs.servlet.CSReqServlet%23larvapage%3DResultDownload.ResultList', this.play);
+    $.get('/behavior/events/http%3A%2F%2F83.24.113.34/' + $('#mid').val() + '/' + encodeURIComponent($('#page-url').val()), this.play);
   },
   componentDidMount: function() {
     var width = 1680/2.5;
@@ -104,11 +104,11 @@ var MouseMoveWidget = React.createClass({
       <div className="box box-danger">
           <WidgetHeader title="鼠标轨迹" />
           <WidgetBody>
-              <p className="text-center">top page:
-                  <strong>
-                      { this.props.appId === 1 ? 'TYQuery.tableQuerya' : 'smis.admin.userMgmt.AdminEditDetail' }
-                  </strong>
-              </p>
+              <div>
+                  <label style={{width: '15%', textAlign: 'right'}} for="">用户ID: </label><input style={{width: '80%'}} id="mid" type="text" defaultValue="6aefcb9e-f2a5-5d86-33ea-f7b1359c2437" />
+                  <br />
+                  <label style={{width: '15%', textAlign: 'right'}} for="">页面URL: </label><input style={{width: '80%'}} id="page-url" type="text" defaultValue="/cmas/servlet/com.icbc.cte.cs.servlet.CSReqServlet#larvapage=ResultDownload.ResultList" />
+              </div>
               <div className="canvas" id="canvas"></div>
           </WidgetBody>
           <WidgetFooter>
